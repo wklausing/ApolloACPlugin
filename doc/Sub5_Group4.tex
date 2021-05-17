@@ -132,15 +132,20 @@ The code in Listing \ref{example} defines the following rules for a certain blog
 
 \subsection{GraphQL Filter}\label{filter}
 
-TODO
+GraphQL Filter is another API that was created based on GraphQL Middleware. It allows to set specific types private. The API is said to provide an additional privacy layer to GraphQL and replaces private information before the query result is sent back to the client. The API is the only framework apart from GraphQL Shield that provides access control for GraphQL as of now. There is no documentation available. There is one test case to showcase how to integrate GraphQL Filter into existing systems. The developer designed it in order to create a more flexible privacy control:\newline
+
+ \begin{quote} ''It may be able to implement flexible read control with graphql-filter and graphql-shield.'' \cite{b2}\newline
+ \end{quote}
+
+The lack of available APIs for access control in GraphQL shows the relevance of this paper's topic and a real need for a re-useable component that allows developers to easily add access control into their systems.
 
 \section{Approach}\label{approach}
 
 TODO (introduce our idea)
 
 \begin{thebibliography}{00}
-\bibitem{b1} M. (n.d.). maticzav/graphql-shield. GitHub. Retrieved May 12, 2021, from https://github.com/maticzav/graphql-shield.
-\bibitem{b2} J. Clerk Maxwell, A Treatise on Electricity and Magnetism, 3rd ed., vol. 2. Oxford: Clarendon, 1892, pp.68--73.
+\bibitem{b1} Zavadlal, M., 2021. maticzav/graphql-shield. [online] GitHub. Available at: <https://github.com/maticzav/graphql-shield> [Accessed 9 May 2021].
+\bibitem{b2} Hata, T., 2021. hata6502/graphql-filter. [online] GitHub. Available at: <https://github.com/hata6502/graphql-filter> [Accessed 11 May 2021].
 \bibitem{b3} I. S. Jacobs and C. P. Bean, ``Fine particles, thin films and exchange anisotropy,'' in Magnetism, vol. III, G. T. Rado and H. Suhl, Eds. New York: Academic, 1963, pp. 271--350.
 \bibitem{b4} K. Elissa, ``Title of paper if known,'' unpublished.
 \bibitem{b5} R. Nicole, ``Title of paper with only first word capitalized,'' J. Name Stand. Abbrev., in press.
