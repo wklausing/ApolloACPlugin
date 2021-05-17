@@ -33,7 +33,7 @@ some@mail.de}
 \IEEEauthorblockN{Klausing, Wilke}
 \IEEEauthorblockA{
 \textit{TU Berlin}\\
-some@mail.de}
+klausing@campus.tu-berlin.de}
 \and
 \IEEEauthorblockN{Nguyen, Huy Viet}
 \IEEEauthorblockA{
@@ -55,13 +55,36 @@ Privacy Engineering, Access Control, GraphQL, Apollo Server
 \section{Introduction}\label{intro}
 Write what this paper is about and what topics will be introduced in each chapter.
 
-\section{Background}\label{basic}
+\section{What is GraphQL?}\label{basic}
 
-TODO (Introduction text for the background chapter)
+Graph Query Language or short GraphQL is a query language and server-side runtime developed by Facebook in 2012. At first it was an internal project to help to increase the performance of its mobile apps, which suffered from more and more complexity. Especially the news feed required a lot of queries to the server, GraphQL solved this by offering more flexibility and efficiency. It supports not just query operations but mutations as well and is available in any language since it is only a specification. In 2015, Facebook published GraphQL to the public as an open-source project under the MIT licence. The GraphQL Foundation, which is part of the Linux Foundation, takes care of further developments. (4)
 
-\subsection{GraphQL}\label{graphql}
+\subsection{How does GraphQL works?}\label{graphql}
 
-TODO (what it is, pros and cons)
+A mayor concept of GraphQL is to think about data not in terms of resource URLs or tables but rather as a graph of objects. The client formulates queries, mutations or subscriptions to the server. Queries are used to retrieve data from the server, whereas mutations are used to change data within a predefined schema. Subscriptions command the server to push a notification to the client if some specific data changes. While queries and mutations use HTTP protocol for data transfer, does subscription require a web socket with a constant connection between server and client. (2)
+
+If a client wants to make a query request it needs to send a HTTP GET or POST request to the endpoint, which is usually called /graphql. Each request contains a query which looks similar to a JSON object. Fields which are filled are used as search parameters to find the empty fields, which the client asked for. The fields are static types. Here you can see how a query can look like, with the respective answer on the right side. (3)
+ 
+ #!!!Picture of Querie!!!#
+ 
+For GET requests is the query encoded in the URL. This can look like the following example URL: http://localhost:8080/graphql?query={...}&variables={...}&operation=... . When POST is used the query is put into the request body. (3)
+
+On the server side, when receiving the requests, it needs to be parsed, processed and answered accordingly. Parsing and answering are defined in the GraphQL protocols and are greatly standardized. For these steps’ libraries are widely available in many programming languages for different platforms. The process step, on the other hand, needs to be defined by the developer. Where the data comes from and what to include or exclude cannot be standardized because this highly depends on the use case. For each field that needs to be filled one resolver is used. The resolver is basically a function to get the data. Where the data comes is up the implementation by the developer. It could, for instance, be a text file, database, or from a data object which is stored in memory. For a good performance the resolvers are executed in parallel, if possible, instead of sequentially. To avoid several requests to the same source, resolver share resources between each other. (2)
+
+\subsection{GraphQL vs Restful}\label{graphql}
+
+The prior standard for web APIs before GraphQL is call RESTful API. It was introduced in 2000 in order to simplify the communication between machines using the HTTP protocol without any additional layers. This chapter will compare both APIs. (5)
+
+A first difference is that GraphQL, in contrast to RESTful, uses only one endpoint. RESTful offers one endpoint for each data. For instance, RESTful saves Person data at the endpoint /person, while Tax data is saved at the endpoint /tax. This leads to problem called Overfetching and Underfetching. Overfetching refers to the problem that more data is fetched then the client asked for. For instance, if a client needs to fetch the name of a person it can fetch from endpoint /person. The response would be a JSON object that can contain also information like birthday, address or age. Underfetching refers to the problem that one endpoint does not contain all the information. The client needs to make several request to the server to get all the data it wanted in the first place. (1)
+
+\subsection{Wilke Temp Lib}\label{graphql}
+
+1.	https://www.howtographql.com/basics/1-graphql-is-the-better-rest/ \newline 
+2.	https://www.heise.de/developer/artikel/Was-man-ueber-GraphQL-wissen-sollte-4997158.html \newline 
+3.	https://graphql.org/learn/queries/#fields \newline 
+4.	https://www.ionos.de/digitalguide/websites/web-entwicklung/graphql/ \newline 
+5.	https://www.moesif.com/blog/technical/graphql/REST-vs-GraphQL-APIs-the-good-the-bad-the-ugly/ \newline 
+
 
 \subsection{Privacy Engineering}\label{privacy}
 
