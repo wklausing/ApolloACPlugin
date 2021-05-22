@@ -28,7 +28,7 @@ showstringspaces=false
 \author{\IEEEauthorblockN{Jaber, Amin Fayeq Nimer}
 \IEEEauthorblockA{
 \textit{TU Berlin}\\
-some@mail.de}
+amin.jaber@campus.tu-berlin.de}
 \and
 \IEEEauthorblockN{Klausing, Wilke}
 \IEEEauthorblockA{
@@ -88,11 +88,45 @@ A first difference is that GraphQL, in contrast to RESTful, uses only one endpoi
 
 \subsection{Privacy Engineering}\label{privacy}
 
-TODO (what privacy engineering is in general, the impact and importance of PE in our lifes)
+The general definition of privacy:
+Privacy is a part of our life as an individual, where a person can exercise an overall control over their own data like the use and distribution of any Personally Identifiable Information \boldsymbol{(PII)}. The increasingly privacy’s issue that are caused by the use, collection and maintenance of these private information.
+\newline The short \boldsymbol{(PII)} stands for “information which can be used to distinguish or trace an individual’s identity, such as their name, social security number, bio-metric records, etc.”
+\newline The main focus of privacy engineering is to combine privacy concepts in to already existing systems engineering processes for like the \boldsymbol{V model} (also known as water fall model), without creating an new step process in the model. On the image below the illustration shows how the main concepts of the privacy engineering are applied on such a model
+
+\subsection{difference between privacy and security}\label{privacy and security}
+
+The privacy as its definition defined is on an individual level, where an individual person can exercise an overall control on their own data \boldsymbol{(PII)}, while security is the mechanisms with the objective to protect these information and ensure its confidentiality, integrity and availability at all time. And from the concept of privacy and security together, our main focus will be on specific IT controls, which have the objective to ensure confidentiality and integrity of the information, while at the same time covering the privacy objectives. For example having an access controls system to ensure that only persons with authorization have the access permission to an individual information, whether it is for deleting, modifying or reading. Access control like this can help to achieve the integrity and confidentially of our information. In depth what access control can provide is to ensure that an individual with the specific authorizations have access to particular information with limited controls over them. With these methods we can protect our information from any unauthorized access while keeping them also safe.
+
 
 \subsection{Access Control}\label{access_control}
 
-TODO (most common access control models + detailed explaination for purpose based access control)
+The first objective of an access control is to identify the user, who is trying to execute a certain action, then grand them the authentication or not after looking in their identification can be a special ID number, in the end if this user get authorized, it will be only for specified limit the user have access to nothing more. In simpler words we can assume that a user used their username and password to get access to a network or library, while the users have access to it, but it is in a limited manner, like reading only with no permission to edit or delete. And this is where the Access control model come in to the play.
+\newline
+\newline There are several Access control model out in the world and here are a list of the four most common types: \newline
+\begin{enumerate}
+1.	Mandatory Access Control (MAC)\newline
+2.	Role-Based Access Control (RBAC)\newline
+3.	Discretionary Access Control (DAC)\newline
+4.	Rule-Based Access Control (RBAC or RB-RBAC)\newline
+\end{enumerate}
+\newline
+\subsubsection{	Mandatory Access Control (MAC)}\label{(MAC)}
+\newline
+In the Mandatory Access Control (MAC) model it gives the owner and the management level the complete access control of the system. Where the regular user could be employees have no control over any sittings unless they got granted by the owner. The MAC model have also two security models associated with it Biba and Bell-LaPadula. The Biba model main objective is focused on the integrity of the data, in addition that the users with lower level of permissions can only read from the users (owner/management) with higher level of permissions, it is also called (read up). While the user with higher level of permissions can write for the lower users, this called (write down). This is typically used in most companies where the manager team write down to the other employee’s their instructions and the employees only reads it.
+\newline
+The main focus of the second integrated model Bell-LaPadula model is confidentiality of information. Where the higher level users can only write to the same level of users (write up), but also read from the lower level of users (read down). Bell-LaPadula model was mostly used for government propose, since it is in a way, where if you don’t have access to a certain information’s, this should means you don´t need it. Formerly, MAC was linked with the numbering system, where each level of users are given certain number and same to the files data. For example a file (myfileXD) have the level number of 300 and another file (mylifelol) have the level number 500, an employee with level number 400 can have access to the file (myfileXD), since the user level is above 300 but not to the file (mylifelol), where it is lower. MAC still considered the highest access control there is for the reason as explained previously.
+\newline
+\subsubsection{Role-Based Access Control (RBAC)}\label{(RBAC)}
+\newline
+The Role-Based Access Control (RBAC) model provide access to the user depending of their position. Like for example if a user is in the security department, this user have already have its access permission associated to their position. With this method strategy of accessing information make life easier for company to manage their access rights for the employee, but the down side in this model is, if a user in some position needs access to another information in another position, then this user have to find other ways to get these information’s, otherwise this could lead to unauthorized access from another organizations.
+\newline
+\subsubsection{Discretionary Access Control (DAC)}\label{(DAC)}
+\newline
+The Discretionary Access Control (DAC), is the least limited constrain model, when compared with the MAC model, since it gives the user the complete access to any objective alongside any linked programs to that objectives. And this puts the DAC model having two crucial weaknesses. The first would be, granting an end user the total access control, where they can set the security settings level, for example by giving other user high or low levels setting and this can lead to access information’s they were not supposed to view. The second major weakness would be that the end user who have this total privileges are unknowingly inheriting onto other programs they execute, in other words the user can execute a malware in to the system and compromising it due to the user with high privileges’.
+\newline
+\subsubsection{Rule-Based Access Control (RBAC or RB-RBAC)}\label{(RBAC)}
+\newline
+The fourth and final access control model is Rule-Based Access Control, also with the acronym RBAC or RB-RBAC. Rule-Based Access Control will dynamically assign roles to users based on criteria defined by the custodian or system administrator. For example, if someone is only allowed access to files during certain hours of the day, Rule-Based Access Control would be the tool of choice. The additional “rules” of Rule-Based Access Control requiring implementation may need to be “programmed” into the network by the custodian or system administrator in the form of code versus “checking the box.”
 
 \section{Existing Technologies}\label{ex_tech}
 
