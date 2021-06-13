@@ -12,11 +12,19 @@ const typeDefs = gql`
     author: String
   }
 
+  type Author {
+    firstName: String
+    lastName: String
+    age: Int
+    books: [Book]
+  }
+
   # The "Query" type is special: it lists all of the available queries that
   # clients can execute, along with the return type for each. In this
   # case, the "books" query returns an array of zero or more Books (defined above).
   type Query {
     books: [Book]
+    authors: [Author]
   }
 `;
 
@@ -31,11 +39,25 @@ const books = [
   },
 ];
 
+const authors = [
+  {
+    firstName: 'William',
+    lastName: 'Shakespear',
+    age: 150,
+  },
+  {
+    firstName: 'Frank',
+    lastName: 'Pallas',
+    age: 40,
+  },
+];
+
 // Resolvers define the technique for fetching the types defined in the
 // schema. This resolver retrieves books from the "books" array above.
 const resolvers = {
   Query: {
     books: () => books,
+    authors: () => authors,
   },
 };
 
