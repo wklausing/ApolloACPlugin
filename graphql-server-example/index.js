@@ -67,13 +67,7 @@ const server = new ApolloServer({
 	typeDefs, 
 	resolvers,
 	plugins: [
-		{
-			requestDidStart(requestContext) {
-				if(requestContext.request.operationName != 'IntrospectionQuery') {
-					console.log(requestContext.request.http.headers);
-				}
-			}
-		}
+		require('./ACPlugin/plugin'),
   ],
 });
 

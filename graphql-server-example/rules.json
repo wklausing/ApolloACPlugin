@@ -1,0 +1,3 @@
+[
+		{ "name": "PostmanOnly", "field": "*", "operation":"CONTAINS", "compare": "user-agent", "value": "PostmanRuntime/*" },
+]

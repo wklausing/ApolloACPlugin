@@ -1,0 +1,14 @@
+[
+  {
+    "field": "*",
+    "operation": "CONTAINS",
+    "compare": "user-agent",
+    "value": "Postman"
+  },
+	{
+    "field": "author",
+    "operation": "CONTAINS",
+    "compare": "user-agent",
+    "value": "Chrome"
+  }
+]
