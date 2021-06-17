@@ -1,0 +1,10 @@
+purpose:
+  public:
+    - all
+  private:
+    - economic
+    - financial
+    - health
+    - industrial
+    - law
+    - public

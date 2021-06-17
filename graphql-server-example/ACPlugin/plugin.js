@@ -1,7 +1,11 @@
+const yaml = require('js-yaml');
+const fs   = require('fs');
+
 let rules = require('./rules.json');
 let ruleMap = new Map();
 processRules(rules);
 
+let purposes = null;
 
 function processRules(rules) {
 	rules.forEach(element => {
@@ -48,21 +52,40 @@ function getOperation(element) {
 	}
 }
 
+function purposeExist(request) {
+	if(request.variables == undefined) return false;
+	if(request.variables.purpose == undefined) return false;
+	return true;
+}
+
+function blockRequest(requestContext) {
+	requestContext.request.query = undefined;
+}
+
 module.exports = (options) => {
   return {
 		serverWillStart() {
+			try {
+				purposes = yaml.load(fs.readFileSync(__dirname + '/purpose.yml', 'utf8'));
+				console.log("Purposes loaded:\n" + purposes);
+			} catch (e) {
+				console.log("No purpose in the correct format given");
+			}
 		},
     requestDidStart(requestContext) {
 			if(requestContext.request.operationName != 'IntrospectionQuery') {
 				// See request header information
 				//console.log(requestContext.request.http.headers);
-				
-				
+				if(purposes != null) {
+					let validation = purposeExist(requestContext.request);
+					if(!validation) 
+						blockRequest(requestContext);
+				}
 				ruleMap["*"].forEach(element => {
 					if(!eval(element)) {
 						// block request
 						console.log("false: " + element);
-						requestContext.request.query = {};
+						requestContext.request.query = undefined;
 					} else {
 						// ignore
 						console.log("true: " + element);
