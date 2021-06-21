@@ -9,19 +9,19 @@ const resolvers = {
 module.exports = resolvers;
 
 //Connect with SQLite
-module.exports.createStore = () => {
-  const db = new Sequelize({
-    dialect: 'sqlite',
-    storage: './store.sqlite'
-  });
+//module.exports.createStore = () => {
+  //const db = new Sequelize({
+    //dialect: 'sqlite',
+    //storage: './store.sqlite'
+  //});
 
-  const users = db.define('user', {
-    createdAt: Sequelize.DATE,
-    updatedAt: Sequelize.DATE,
-    email: Sequelize.STRING,
-    profileImage: Sequelize.STRING,
-    token: Sequelize.STRING,
-  });
+  //const users = db.define('user', {
+    //createdAt: Sequelize.DATE,
+    //updatedAt: Sequelize.DATE,
+    //email: Sequelize.STRING,
+    //profileImage: Sequelize.STRING,
+    //token: Sequelize.STRING,
+  //});
 
   //const trips = db.define('trip', {
     //createdAt: Sequelize.DATE,
@@ -30,8 +30,8 @@ module.exports.createStore = () => {
     //userId: Sequelize.INTEGER,
   //});
 
-  return { db, users};
-};
+  //return { db, users};
+//};
 
 
 //Test Data
