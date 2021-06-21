@@ -1,4 +1,6 @@
 const { ApolloServer, gql } = require('apollo-server');
+const typeDefs = require('./schema.js');
+const { resolvers, createStore } = require('./resolvers.js');
 
 // A schema is a collection of type definitions (hence "typeDefs")
 // that together define the "shape" of queries that are executed against
@@ -70,8 +72,12 @@ const server = new ApolloServer({
 		require('./ACPlugin/plugin'),
   ],
 });
+=======
+// Setup server.
+const server = new ApolloServer({ typeDefs, resolvers });
 
-// The `listen` method launches a web server.
+
+// Start server.
 server.listen().then(({ url }) => {
   console.log(`🚀  Server ready at ${url}`);
 });
