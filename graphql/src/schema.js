@@ -19,8 +19,17 @@ const typeDefs = gql`
     Calories: Int
   }
 
+  type Person {
+    PersonID: Int
+    LastName: String
+    FirstName: String
+    Address: String
+    City: String
+  }
+
   type Query {
-    user(Id: Int!): DailyActivity
+    user(Id: Int!, ActivityDate: String!): DailyActivity
+    person1(PersonID: Int): Person
   }
 `;
 
