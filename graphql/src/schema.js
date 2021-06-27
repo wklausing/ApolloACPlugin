@@ -29,7 +29,7 @@ const typeDefs = gql`
 
   type Query {
     user(Id: Int!, ActivityDate: String!): DailyActivity
-    person1(PersonID: Int): Person
+    person1: Person
   }
 `;
 
