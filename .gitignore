@@ -1,4 +1,4 @@
 .DS_Store
 doc/.DS_Store
-graphql-server-example/FitBitDB/*.csv
+../dataset/fitbitData/*.csv
 graphql/node_modules/
