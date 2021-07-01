@@ -14,10 +14,10 @@ const resolvers = {
           });
       });
     },
-    async DailyActivitiy (_, {id}, ___) {
+    async DailyActivitiy (_, {Id}, ___) {
       return new Promise((resolve, reject) => {
           // raw SQLite query to select from table
-          database.all("SELECT * FROM DailyActivities WHERE id = (?);", [id], function(err, rows) {
+          database.all("SELECT * FROM DailyActivities WHERE Id = (?);", [Id], function(err, rows) {
               if(err){
                   reject([]);
               }
@@ -26,6 +26,24 @@ const resolvers = {
       });
     },
   },
+  Mutation: {
+    async AddDailyActivity (_, {Id,ActivityDate,TotalSteps}, ___) {
+      return new Promise((resolve, reject) => {
+          //raw SQLite to insert a new post in post table
+          database.run('INSERT INTO DailyActivities (Id,ActivityDate,TotalSteps) VALUES (?,?,?);',[Id,ActivityDate,TotalSteps], (err) => {
+              if(err) {
+                  reject(null);
+              }
+              database.all("SELECT * FROM DailyActivities WHERE Id = (?);", [Id], function(err, rows) {
+                  if(err){
+                      reject([]);
+                  }
+                  resolve(rows);
+              });
+          });
+      })
+    }
+  }
 };
 
 module.exports = resolvers;

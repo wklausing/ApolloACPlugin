@@ -3,8 +3,8 @@ const { gql } = require('apollo-server');
 const typeDefs = gql`
   # SQLite table users
   type DailyActivities {
-    id: Float
-    activityDate: String
+    Id: Float
+    ActivityDate: String
     TotalSteps: Int
     TotalDistance: Float
     TrackerDistance: Float
@@ -22,7 +22,15 @@ const typeDefs = gql`
 
   type Query {
     DailyActivities: [DailyActivities]
-    DailyActivitiy(id: Float!): [DailyActivities]
+    DailyActivitiy(Id: Float!): [DailyActivities]
+  }
+
+  type Mutation {
+    AddDailyActivity(
+      Id: Float!
+      ActivityDate: String!
+      TotalSteps: Int
+    ): DailyActivities
   }
 `;
 
