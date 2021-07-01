@@ -1,11 +1,18 @@
+const {database} = require("./db");
+
 const resolvers = {
   Query: {
-    async user (_, { id, activityDate }, { models }) {
-      return models.DailyActivity.findByPk(id, activityDate)
+    async DailyActivities (_, __, ___) {
+      return new Promise((resolve, reject) => {
+          // raw SQLite query to select from table
+          database.all("SELECT * FROM DailyActivities;", function(err, rows) {
+              if(err){
+                  reject([]);
+              }
+              resolve(rows);
+          });
+      });
     },
-    async person1 (_, __, { models }) {
-      return models.Persons.findAll()
-    }
   },
 };
 
