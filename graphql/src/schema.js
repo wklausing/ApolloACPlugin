@@ -1,36 +1,7 @@
 const graphql = require("graphql");
 const sqlite3 = require('sqlite3').verbose();
 
-//create a database if no exists
-const database = new sqlite3.Database("./fitbit.db");
-
-//create a table to insert post
-const createDailyActivitiesTable = () => {
-    const  query  =  `
-        CREATE TABLE IF NOT EXISTS DailyActivities (
-        id integer,
-        activityDate date,
-        TotalSteps integer,
-        TotalDistance float(7),
-        TrackerDistance float(7),
-        LoggedActivitiesDistance float(7),
-        VeryActiveDistance float(7),
-        ModeratelyActiveDistance float(7),
-        LightActiveDistance float(7),
-        SedentaryActiveDistance integer,
-        VeryActiveMinutes integer,
-        FairlyActiveMinutes integer,
-        LightlyActiveMinutes integer,
-        SedentaryMinutes integer,
-        Calories integer,
-        PRIMARY KEY (id, activityDate)
-       )`;
-
-    return  database.run(query);
-}
-
-//call function to init the post table
-createDailyActivitiesTable();
+const {database} = require("./db");
 
 //creacte graphql post object
 const DailyActivitiesType = new graphql.GraphQLObjectType({
@@ -53,12 +24,6 @@ const DailyActivitiesType = new graphql.GraphQLObjectType({
         Calories: { type: graphql.GraphQLInt }
     }
 });
-
-//id: { type: graphql.GraphQLID },
-//activityDate: { type: graphql.GraphQLString },
-//description: { type: graphql.GraphQLString },
-//createDate: { type: graphql.GraphQLString },
-//author: { type: graphql.GraphQLString }
 
 // create a graphql query to select all and by id
 var queryType = new graphql.GraphQLObjectType({
