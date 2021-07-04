@@ -29,18 +29,37 @@ const resolvers = {
     },
   },
   Mutation: {
-    async AddDailyActivity (_, {id,activityDate,TotalSteps}, ___) {
+    async InsertDailyActivity (_, {id,activityDate,TotalSteps}, ___) {
       return new Promise((resolve, reject) => {
           //raw SQLite to insert a new post in post table
           database.run('INSERT INTO DailyActivities (Id,ActivityDate,TotalSteps) VALUES (?,?,?);',[id,activityDate,TotalSteps], (err) => {
               if(err) {
                   reject(null);
-                  console.log("AddDailyActivity: Insert failed")
+                  console.log("InsertDailyActivity: Insert failed")
               }
               database.all("SELECT * FROM DailyActivities WHERE Id = (?);", [id], function(err, rows) {
                   if(err){
                       reject([]);
-                      console.log("AddDailyActivity: Select failed")
+                      console.log("InsertDailyActivity: Select failed")
+                  }
+                  resolve(rows);
+                  console.log(rows)
+              });
+          });
+      })
+    },
+    async DeleteDailyActivity (_, {id,activityDate}, ___) {
+      return new Promise((resolve, reject) => {
+          //raw SQLite to insert a new post in post table
+          database.run('DELETE FROM DailyActivities WHERE id=(?) AND activityDate=(?);',[id,activityDate], (err) => {
+              if(err) {
+                  reject(null);
+                  console.log("DeleteDailyActivity: Delete failed")
+              }
+              database.all("SELECT * FROM DailyActivities WHERE Id = (?) AND activityDate=(?);", [id,activityDate], function(err, rows) {
+                  if(err){
+                      reject([]);
+                      console.log("DeleteDailyActivity: Select failed")
                   }
                   resolve(rows);
                   console.log(rows)

@@ -26,11 +26,14 @@ const typeDefs = gql`
   }
 
   type Mutation {
-    AddDailyActivity(
+    InsertDailyActivity(
       id: Float!
       activityDate: String!
       TotalSteps: Float
     ): DailyActivities
+    DeleteDailyActivity(
+      id: Float!
+      activityDate: String!): DailyActivities
   }
 `;
 
