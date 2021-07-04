@@ -11,34 +11,39 @@ const resolvers = {
               }
               resolve(rows);
               rows.shift();
+              console.log(rows)
           });
       });
     },
-    async DailyActivitiy (_, {Id}, ___) {
+    async DailyActivity (_, {id}, ___) {
       return new Promise((resolve, reject) => {
           // raw SQLite query to select from table
-          database.all("SELECT * FROM DailyActivities WHERE Id = (?);", [Id], function(err, rows) {
+          database.all("SELECT * FROM DailyActivities WHERE id = (?);", [id], function(err, rows) {
               if(err){
                   reject([]);
               }
               resolve(rows);
+              console.log(rows)
           });
       });
     },
   },
   Mutation: {
-    async AddDailyActivity (_, {Id,ActivityDate,TotalSteps}, ___) {
+    async AddDailyActivity (_, {id,activityDate,TotalSteps}, ___) {
       return new Promise((resolve, reject) => {
           //raw SQLite to insert a new post in post table
-          database.run('INSERT INTO DailyActivities (Id,ActivityDate,TotalSteps) VALUES (?,?,?);',[Id,ActivityDate,TotalSteps], (err) => {
+          database.run('INSERT INTO DailyActivities (Id,ActivityDate,TotalSteps) VALUES (?,?,?);',[id,activityDate,TotalSteps], (err) => {
               if(err) {
                   reject(null);
+                  console.log("AddDailyActivity: Insert failed")
               }
-              database.all("SELECT * FROM DailyActivities WHERE Id = (?);", [Id], function(err, rows) {
+              database.all("SELECT * FROM DailyActivities WHERE Id = (?);", [id], function(err, rows) {
                   if(err){
                       reject([]);
+                      console.log("AddDailyActivity: Select failed")
                   }
                   resolve(rows);
+                  console.log(rows)
               });
           });
       })
