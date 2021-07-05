@@ -43,7 +43,7 @@ query{
 Mutation zum testen
 * Wirft Fehler falls Eintrag schon existiert
 mutation{
-  AddDailyActivity(id: 21, activityDate: "5/12/2021", TotalSteps: 500) {
+  InsertDailyActivity(id: 21, activityDate: "5/12/2021", TotalSteps: 500) {
     id,
     activityDate,
     TotalSteps,
@@ -61,3 +61,6 @@ mutation{
     Calories
   }
 }
+
+Command um csv Datei in DB einzulesen
+.import /Users/wkl/git/PENG/dataset/fitbitData/heartrate_seconds_merged.csv HeartratePerSeconds --csv
