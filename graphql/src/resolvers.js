@@ -27,6 +27,19 @@ const resolvers = {
           });
       });
     },
+    async HeartratePerSeconds (_, {id}, ___) {
+      return new Promise((resolve, reject) => {
+          // raw SQLite query to select from table
+          database.all("SELECT * FROM HeartratePerSeconds WHERE id = (?);", [id], function(err, rows) {
+              if(err){
+                  reject([]);
+              }
+              resolve(rows);
+              rows.shift();
+              console.log(rows)
+          });
+      });
+    },
   },
   Mutation: {
     async InsertDailyActivity (_, {id,activityDate,TotalSteps}, ___) {

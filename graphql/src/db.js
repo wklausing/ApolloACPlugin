@@ -31,6 +31,22 @@ const createDailyActivitiesTable = () => {
 //call function to init the post table
 createDailyActivitiesTable();
 
+//create a table to insert post
+const createHeartratePerSecondsTable = () => {
+    const  query  =  `
+        CREATE TABLE IF NOT EXISTS HeartratePerSeconds (
+        Id integer,
+        Time date,
+        Value integer,
+        PRIMARY KEY (Id, Time)
+       )`;
+
+    return  database.run(query);
+}
+
+//call function to init the post table
+createHeartratePerSecondsTable();
+
 //export schema to use on index.js
 module.exports = {
     database

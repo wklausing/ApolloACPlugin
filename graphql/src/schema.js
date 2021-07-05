@@ -20,9 +20,17 @@ const typeDefs = gql`
     Calories: Int
   }
 
+  type HeartratePerSeconds {
+    Id: Float
+    Time: String
+    Value: Int
+  }
+
   type Query {
     DailyActivities: [DailyActivities]
     DailyActivity(id: Float!): [DailyActivities]
+
+    HeartratePerSeconds(id: Float): [HeartratePerSeconds]
   }
 
   type Mutation {
