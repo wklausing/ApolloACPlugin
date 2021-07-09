@@ -3,12 +3,11 @@ const sqlite3 = require('sqlite3').verbose();
 //create a database if no exists
 const database = new sqlite3.Database("./fitbit.db");
 
-//create a table to insert post
 const createDailyActivitiesTable = () => {
     const  query  =  `
         CREATE TABLE IF NOT EXISTS DailyActivities (
-        id integer,
-        activityDate date,
+        Id integer,
+        ActivityDate date,
         TotalSteps integer,
         TotalDistance float(7),
         TrackerDistance float(7),
@@ -22,16 +21,12 @@ const createDailyActivitiesTable = () => {
         LightlyActiveMinutes integer,
         SedentaryMinutes integer,
         Calories integer,
-        PRIMARY KEY (id, activityDate)
+        PRIMARY KEY (Id, ActivityDate)
        )`;
-
     return  database.run(query);
 }
-
-//call function to init the post table
 createDailyActivitiesTable();
 
-//create a table to insert post
 const createHeartratePerSecondsTable = () => {
     const  query  =  `
         CREATE TABLE IF NOT EXISTS HeartratePerSeconds (
@@ -40,12 +35,31 @@ const createHeartratePerSecondsTable = () => {
         Value integer,
         PRIMARY KEY (Id, Time)
        )`;
-
     return  database.run(query);
 }
-
-//call function to init the post table
 createHeartratePerSecondsTable();
+
+const createPersonsTable = () => {
+    const  query  =  `
+        CREATE TABLE IF NOT EXISTS Persons (
+        Id integer,
+        First_name text,
+        Last_name text,
+        Company_name text,
+        Address text,
+        City text,
+        County text,
+        State text,
+        Zip text,
+        Phone1 text,
+        Phone2 text,
+        Email text,
+        Web text,
+        PRIMARY KEY (Id)
+       )`;
+    return  database.run(query);
+}
+createPersonsTable();
 
 //export schema to use on index.js
 module.exports = {
