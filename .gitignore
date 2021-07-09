@@ -2,3 +2,4 @@
 doc/.DS_Store
 dataset/fitbitData/*.csv
 graphql/node_modules/
+graphql/fitbit.db
