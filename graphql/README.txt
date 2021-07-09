@@ -1,9 +1,19 @@
-Queries zum Testen
+#Install
+npm install
+
+#Start graphql server
+node src/index.js
+
+#SQLITE3 DB - Command um csv Datei in DB einzulesen
+.import ../dataset/fitbitData/dailyActivity_merged.csv DailyActivities --csv
+.import ../dataset/fitbitData/heartrate_seconds_merged.csv HeartratePerSeconds --csv
+
+#Queries zum Testen
 
 query{
   DailyActivities {
-    id,
-    activityDate,
+    Id,
+    ActivityDate,
     TotalSteps,
     TotalDistance,
     TrackerDistance,
@@ -21,9 +31,9 @@ query{
 }
 
 query{
-  DailyActivity(id: 8877689391){
-    id,
-    activityDate,
+  DailyActivity(Id: 8877689391){
+    Id,
+    ActivityDate,
     TotalSteps,
     TotalDistance,
     TrackerDistance,
@@ -43,9 +53,9 @@ query{
 Mutation zum testen
 * Wirft Fehler falls Eintrag schon existiert
 mutation{
-  InsertDailyActivity(id: 21, activityDate: "5/12/2021", TotalSteps: 500) {
-    id,
-    activityDate,
+  InsertDailyActivity(Id: 21, ActivityDate: "5/12/2021", TotalSteps: 500) {
+    Id,
+    ActivityDate,
     TotalSteps,
     TotalDistance,
     TrackerDistance,
@@ -61,6 +71,3 @@ mutation{
     Calories
   }
 }
-
-Command um csv Datei in DB einzulesen
-.import /Users/wkl/git/PENG/dataset/fitbitData/heartrate_seconds_merged.csv HeartratePerSeconds --csv

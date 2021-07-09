@@ -3,8 +3,8 @@ const { gql } = require('apollo-server');
 const typeDefs = gql`
 
   type DailyActivities {
-    id: Float
-    activityDate: String
+    Id: Float
+    ActivityDate: String
     TotalSteps: Float
     TotalDistance: Float
     TrackerDistance: Float
@@ -28,20 +28,20 @@ const typeDefs = gql`
 
   type Query {
     DailyActivities: [DailyActivities]
-    DailyActivity(id: Float!): [DailyActivities]
+    DailyActivity(Id: Float!): [DailyActivities]
 
-    HeartratePerSeconds(id: Float): [HeartratePerSeconds]
+    HeartratePerSeconds(Id: Float): [HeartratePerSeconds]
   }
 
   type Mutation {
     InsertDailyActivity(
-      id: Float!
-      activityDate: String!
+      Id: Float!
+      ActivityDate: String!
       TotalSteps: Float
     ): DailyActivities
     DeleteDailyActivity(
-      id: Float!
-      activityDate: String!): DailyActivities
+      Id: Float!
+      ActivityDate: String!): DailyActivities
   }
 `;
 
