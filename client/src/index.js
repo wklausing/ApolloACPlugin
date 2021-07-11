@@ -1,5 +1,3 @@
-import React from 'react';
-import { render } from 'react-dom';
 import {
   ApolloClient,
   InMemoryCache,
@@ -13,47 +11,30 @@ const client = new ApolloClient({
   cache: new InMemoryCache()
 });
 
-const ID_TOTALSTEPS = gql`
-  query {
-    DailyActivities {
-      Id,
-      TotalSteps
+// const client = ...
+
+client
+  .query({
+    query: gql`
+    query {
+      DailyActivities {
+        Id
+        ActivityDate
+        TotalSteps
+        TotalDistance
+        TrackerDistance
+        LoggedActivitiesDistance
+        VeryActiveDistance
+        ModeratelyActiveDistance
+        LightActiveDistance
+        SedentaryActiveDistance
+        VeryActiveMinutes
+        FairlyActiveMinutes
+        LightlyActiveMinutes
+        SedentaryMinutes
+        Calories
+      }
     }
-  }
-`;
-
-function IdTotalSteps() {
-
-  const { loading, error, data } = useQuery(ID_TOTALSTEPS);
-
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error :(</p>;
-
-  return data.rates.map(({ id, totalSteps }) => (
-    <div key={id}>
-      <p>
-        {id}: {totalSteps}
-      </p>
-    </div>
-  ));
-}
-
-function App() {
-  return (
-    <div>
-      <h2>My first Apollo app 🚀</h2>
-
-      <IdTotalSteps />
-    </div>
-  );
-}
-
-
-
-render(
-
-  <ApolloProvider client={client}>
-    <App />
-  </ApolloProvider>,
-  document.getElementById('root'),
-);
+    `
+  })
+  .then(result => console.log(result));
