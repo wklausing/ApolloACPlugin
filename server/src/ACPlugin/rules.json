@@ -1,6 +1,6 @@
 [
   {
-    "field": "*",
+    "field": "TrackerDistance",
     "operation": "CONTAINS",
     "compare": "user-agent",
     "value": "Chrome"
@@ -10,5 +10,10 @@
     "operation": "CONTAINS",
     "compare": "user-agent",
     "value": "Postman"
+  },
+  {
+    "field": "TotalSteps",
+    "operation": "PURPOSE",
+    "value": "track activity"
   }
 ]
