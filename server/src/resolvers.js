@@ -5,7 +5,7 @@ const resolvers = {
     async DailyActivities (_, __, ___) {
       return new Promise((resolve, reject) => {
           // raw SQLite query to select from table
-          database.all("SELECT * FROM DailyActivities;", function(err, rows) {
+          database.query('SELECT * FROM DailyActivities;', function(err, rows) {
               if(err){
                   reject([]);
               }
@@ -18,7 +18,7 @@ const resolvers = {
     async DailyActivity (_, {Id}, ___) {
       return new Promise((resolve, reject) => {
           // raw SQLite query to select from table
-          database.all("SELECT * FROM DailyActivities WHERE Id = (?);", [Id], function(err, rows) {
+          database.query('SELECT * FROM DailyActivities WHERE Id = (?);', [Id], function(err, rows) {
               if(err){
                   reject([]);
               }
@@ -30,7 +30,7 @@ const resolvers = {
     async HeartratePerSeconds (_, {Id}, ___) {
       return new Promise((resolve, reject) => {
           // raw SQLite query to select from table
-          database.all("SELECT * FROM HeartratePerSeconds WHERE Id = (?);", [Id], function(err, rows) {
+          database.query('SELECT * FROM HeartratePerSeconds WHERE Id = (?);', [Id], function(err, rows) {
               if(err){
                   reject([]);
               }
@@ -45,15 +45,15 @@ const resolvers = {
     async InsertDailyActivity (_, {Id,ActivityDate,TotalSteps}, ___) {
       return new Promise((resolve, reject) => {
           //raw SQLite to insert a new post in post table
-          database.run('INSERT INTO DailyActivities (Id,ActivityDate,TotalSteps) VALUES (?,?,?);',[Id,ActivityDate,TotalSteps], (err) => {
+          database.query('INSERT INTO DailyActivities (Id,ActivityDate,TotalSteps) VALUES (?,STR_TO_DATE(?, "%d/%m/%Y"),?);',[Id,ActivityDate,TotalSteps], (err) => {
               if(err) {
                   reject(null);
-                  console.log("InsertDailyActivity: Insert failed")
+                  console.log('InsertDailyActivity: Insert failed')
               }
-              database.all("SELECT * FROM DailyActivities WHERE Id = (?);", [Id], function(err, rows) {
+              database.query('SELECT * FROM DailyActivities WHERE Id = (?);', [Id], function(err, rows) {
                   if(err){
                       reject([]);
-                      console.log("InsertDailyActivity: Select failed")
+                      console.log('InsertDailyActivity: Select failed')
                   }
                   resolve(rows);
                   //console.log(rows)
@@ -64,15 +64,15 @@ const resolvers = {
     async DeleteDailyActivity (_, {Id,ActivityDate}, ___) {
       return new Promise((resolve, reject) => {
           //raw SQLite to insert a new post in post table
-          database.run('DELETE FROM DailyActivities WHERE Id=(?) AND ActivityDate=(?);',[Id,ActivityDate], (err) => {
+          database.query('DELETE FROM DailyActivities WHERE Id=(?) AND ActivityDate=STR_TO_DATE(?, "%d/%m/%Y");',[Id,ActivityDate], (err) => {
               if(err) {
                   reject(null);
-                  console.log("DeleteDailyActivity: Delete failed")
+                  console.log('DeleteDailyActivity: Delete failed')
               }
-              database.all("SELECT * FROM DailyActivities WHERE Id = (?) AND ActivityDate=(?);", [Id,ActivityDate], function(err, rows) {
+              database.query('SELECT * FROM DailyActivities WHERE Id = (?) AND ActivityDate=STR_TO_DATE(?, "%d/%m/%Y");', [Id,ActivityDate], function(err, rows) {
                   if(err){
                       reject([]);
-                      console.log("DeleteDailyActivity: Select failed")
+                      console.log('DeleteDailyActivity: Select failed')
                   }
                   resolve(rows);
                   //console.log(rows)
