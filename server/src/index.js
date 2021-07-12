@@ -6,7 +6,10 @@ const {database} = require("./db");
 
 const server = new ApolloServer({
   typeDefs,
-	resolvers
+	resolvers,
+	plugins: [
+		require('./ACPlugin/plugin'),
+  ],
 })
 
 server.listen(4000, () => {
