@@ -3,7 +3,7 @@
     "field": "*",
     "operation": "CONTAINS",
     "compare": "user-agent",
-    "value": "Chrome"
+    "value": "Firefox"
   },
 	{
     "field": "Id",

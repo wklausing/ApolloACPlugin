@@ -4,10 +4,40 @@ var database = mysql.createConnection({
   host     : 'localhost',
   user     : 'root',
   password : '',
-  database : 'mysql'
+  database : 'mysql',
+  dateStrings : 'date'
 });
 
 database.connect();
+
+
+
+var wilke;
+const checkIfTableExist = async () => {
+  await return new Promise((resolve, reject) => {
+     const query = 'SHOW TABLES LIKE "DailyActivities"';
+     database.query(query, function (error, rows) {
+       if (error) {
+         throw error;
+       }
+       console.log("Boolean(rows): " + Boolean(rows));
+       console.log("rows: " + rows.length);
+       wilke = rows.length;
+       console.log("wilke = rows.length; " + wilke);
+
+     });
+  });
+};
+var test = checkIfTableExist();
+console.log("promise: " + test);
+console.log("promise: " + test.length);
+console.log("wilke = rows.length; " + wilke);
+if(wilke == 1) {
+  console.log("Wilke1" + wilke);
+} else {
+  console.log("WilkeElse" + wilke);
+}
+
 
 const createDailyActivitiesTable = () => {
     const  query  =  `
@@ -39,7 +69,7 @@ const createHeartratePerSecondsTable = () => {
     const  query  =  `
         CREATE TABLE IF NOT EXISTS HeartratePerSeconds (
           Id integer,
-          Time date,
+          Time dateTime,
           Value integer,
           PRIMARY KEY (Id, Time)
        )`;
