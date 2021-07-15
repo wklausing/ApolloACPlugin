@@ -11,7 +11,7 @@ const resolvers = {
               }
               resolve(rows);
               rows.shift();
-              //console.log(rows)
+              console.log(rows)
           });
       });
     },

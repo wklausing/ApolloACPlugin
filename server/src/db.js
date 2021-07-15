@@ -12,8 +12,8 @@ database.connect();
 const createDailyActivitiesTable = () => {
     const  query  =  `
         CREATE TABLE IF NOT EXISTS DailyActivities (
-          Id integer,
-          ActivityDate date,
+          Id bigint,
+          ActivityDate varchar(10),
           TotalSteps integer,
           TotalDistance float(7),
           TrackerDistance float(7),
@@ -38,8 +38,8 @@ createDailyActivitiesTable();
 const createHeartratePerSecondsTable = () => {
     const  query  =  `
         CREATE TABLE IF NOT EXISTS HeartratePerSeconds (
-          Id integer,
-          Time date,
+          Id bigint,
+          Time varchar(22),
           Value integer,
           PRIMARY KEY (Id, Time)
        )`;
@@ -52,7 +52,7 @@ createHeartratePerSecondsTable();
 const createPersonsTable = () => {
     const  query  =  `
         CREATE TABLE IF NOT EXISTS Persons (
-          Id integer,
+          Id bigint,
           First_name text,
           Last_name text,
           Company_name text,
