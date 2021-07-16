@@ -1,13 +1,17 @@
-#Install
+#Install MySQL database
+brew install mysql
+
+#Start MySQL database
+mysql.server start
+
+#Install dependencies
 npm install
+
+#Fill database with values
+node src/fillDb.js
 
 #Start graphql server
 node src/index.js
-
-#SQLITE3 DB - Command um csv Datei in DB einzulesen
-.import ../dataset/Persons.csv Persons --csv --skip 1
-.import ../dataset/fitbitData/dailyActivity_merged.csv DailyActivities --csv
-.import ../dataset/fitbitData/heartrate_seconds_merged.csv HeartratePerSeconds --csv
 
 #Queries zum Testen
 
