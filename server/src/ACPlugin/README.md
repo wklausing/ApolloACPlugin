@@ -60,7 +60,7 @@ Verify the request via given purpose
     "category": "purpose",
     "purpose": <String, Array of Strings>,
     "exception": <String, Array of Strings>
-    "error": <ErrorHandling>*
+    "error": <ErrorHandling>*,
     "policy": <Allow/Deny>*
 }
 ```
