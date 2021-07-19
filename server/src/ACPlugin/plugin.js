@@ -168,7 +168,7 @@ function validPurpose(purpose) {
 function deepFilter(obj, requestContext) {
 	if (typeof (obj) == "object") {
 		Object.keys(obj).forEach(element => {
-			if (ruleMap[element] != null) {
+			if (ruleMap[element] != null)
 				ruleMap[element].forEach(rule => {
 					if(!verifyRule(requestContext, rule)) {
 						switch (policy) {
@@ -185,7 +185,6 @@ function deepFilter(obj, requestContext) {
 						
 					}
 				});
-			}
 			deepFilter(obj[element], requestContext);
 		})
 	}
@@ -259,87 +258,117 @@ function verifyRule(requestContext, rule) {
 		if(headerInfo == null) 
 			return false;
 		headerInfo = headerInfo.toUpperCase();
-		switch (rule.operation) {
-			case "CONTAINS":
-				valid = rule.value.some(v => {
-					if(headerInfo.includes(v)) {
-						return true;
-					}
-				});
-				break;
-			case "EQUAL":
-				valid = rule.value.some(v => {
-					if(headerInfo == v) {
-						return true;
-					}
-				});
-				break;
-			case "UNEQUAL":
-				valid = rule.value.some(v => {
-					if(headerInfo != v) {
-						return true;
-					}
-				});
-				break;
-			case "GREATER":
-				valid = rule.value.some(v => {
-					if(headerInfo > v) {
-						return true;
-					}
-				});
-				break;
-			case "LESS":
-				case "GREATER":
-				valid = rule.value.some(v => {
-					if(headerInfo < v) {
-						return true;
-					}
-				});
-				break;
-			case "GEQ":
-				case "GREATER":
-				valid = rule.value.some(v => {
-					if(headerInfo >= v) {
-						return true;
-					}
-				});
-				break;
-			case "LEQ":
-				case "GREATER":
-				valid = rule.value.some(v => {
-					if(headerInfo <= v) {
-						return true;
-					}
-				});
-				break;
-		}
+		valid = verifyHeaderRule(headerInfo, rule);
 	} 
 	if(rule instanceof PurposeRule) {
 		let purpose = requestContext.request.variables.purpose.toUpperCase();
+		valid = verifyPurposeRule(purpose, rule);
+	}
+	return valid;
+}
 
-		// Check if the given purpose is an exception
-		if(rule.exception != null) {
-			let isException = false;
-			rule.exception.every(ex => {
-				if(ex == purpose) 
-					isException = true;
-					return true;
-			})
-			if(isException) return valid;
+/**
+Parameters
+----------
+purpose: purpose string
+rule: PurposeRule
+
+Functionality
+----------
+Checks if the request meets the purpose rule's condition
+ */
+function verifyPurposeRule(purpose, rule) {
+	let valid = false;
+	// Check if the given purpose is an exception
+	if(rule.exception != null) {
+		let isException = false;
+		rule.exception.every(ex => {
+			if(ex == purpose) 
+				isException = true;
+				return true;
+		})
+		if(isException) return valid;
+	}
+
+	// Check if the given purpose is valid
+	valid = rule.purpose.some(p => {
+		if(purpose == p) {
+			return true;
 		}
-
-		// Check if the given purpose is valid
-		valid = rule.purpose.some(p => {
-			if(purpose == p) {
+		valid = purposes.get(p).some(p2 => {
+			if(purpose == p2) {
 				return true;
 			}
-			valid = purposes.get(p).some(p2 => {
-				if(purpose == p2) {
+		});
+		if(valid) return true;
+	});
+}
+
+/**
+Parameters
+----------
+headerInfo: header value
+rule: HeaderRule
+
+Functionality
+----------
+Checks if the request meets the header rule's condition
+ */
+function verifyHeaderRule(headerInfo, rule) {
+	let valid = false;
+	switch (rule.operation) {
+		case "CONTAINS":
+			valid = rule.value.some(v => {
+				if(headerInfo.includes(v)) {
 					return true;
 				}
 			});
-			if(valid) return true;
-		});
+			break;
+		case "EQUAL":
+			valid = rule.value.some(v => {
+				if(headerInfo == v) {
+					return true;
+				}
+			});
+			break;
+		case "UNEQUAL":
+			valid = rule.value.some(v => {
+				if(headerInfo != v) {
+					return true;
+				}
+			});
+			break;
+		case "GREATER":
+			valid = rule.value.some(v => {
+				if(headerInfo > v) {
+					return true;
+				}
+			});
+			break;
+		case "LESS":
+			case "GREATER":
+			valid = rule.value.some(v => {
+				if(headerInfo < v) {
+					return true;
+				}
+			});
+			break;
+		case "GEQ":
+			case "GREATER":
+			valid = rule.value.some(v => {
+				if(headerInfo >= v) {
+					return true;
+				}
+			});
+			break;
+		case "LEQ":
+			case "GREATER":
+			valid = rule.value.some(v => {
+				if(headerInfo <= v) {
+					return true;
+				}
+			});
+			break;
 	}
 	return valid;
 }
