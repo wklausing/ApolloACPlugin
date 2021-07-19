@@ -15,7 +15,8 @@
     "error": "delete"
   },
   {
-    "field": "TotalSteps",
+    "policy": "deny",
+		"field": "TotalSteps",
 		"category": "purpose",
     "purpose": "health",
 		"exception": "prescriptive sleep analytics",

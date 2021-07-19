@@ -11,10 +11,9 @@ const ControlPolicy = {
 	BLOCKREQUEST: "BLOCKREQUEST"
 }
 
-const policy = ControlPolicy.BLOCKREQUEST;
-
 class HeaderRule {
-	constructor(operation, comparison, value, error) {
+	constructor(policy, operation, comparison, value, error) {
+		this.policy = policy;
 		this.operation = operation;
 		this.comparison = comparison;
 		this.value = value;
@@ -23,7 +22,8 @@ class HeaderRule {
 }
 
 class PurposeRule {
-	constructor(purpose, exception, error) {
+	constructor(policy, purpose, exception, error) {
+		this.policy = policy;
 		this.purpose = purpose;
 		this.exception = exception;
 		this.error = error;
@@ -60,7 +60,7 @@ module.exports = (options) => {
 				}
 				if (ruleMap["*"] != undefined)
 					ruleMap["*"].forEach(element => {
-						if (!verifyRule(requestContext, element)) {
+						if (element.policy != verifyRule(requestContext, element)) {
 							// block request
 							switch (element.error) {
 								case ControlPolicy.EMPTYSTRING:
@@ -182,7 +182,7 @@ function deepFilter(obj, requestContext) {
 		Object.keys(obj).forEach(element => {
 			if (ruleMap[element] != null)
 				ruleMap[element].forEach(rule => {
-					if(!verifyRule(requestContext, rule)) {
+					if(rule.policy != verifyRule(requestContext, rule)) {
 						switch (rule.error) {
 							case ControlPolicy.EMPTYSTRING:
 								obj[element] = "";
@@ -240,6 +240,7 @@ function getOperation(element) {
 			console.log("Header-Rule: " + element.operation + " " + element.compare + " " + element.value);
 			let value = Array.isArray(element.value) ? element.value : [element.value];
 			value = value.map(function(x){ return x.toUpperCase(); })
+			let policy = element.policy ? element.policy.toUpperCase() == "ALLOW" ? true : false : true;
 			return new HeaderRule(element.operation, element.compare, value, getError(element));
 		case "PURPOSE":
 			console.log("Purpose-Rule: " + element.purpose + " " + (element.exception ? element.exception : "null"));
@@ -247,7 +248,8 @@ function getOperation(element) {
 			purpose = purpose.map(function(x){ return x.toUpperCase(); })
 			let exception = element.exception ? Array.isArray(element.exception) ? element.exception : [element.exception] : null;
 			exception = exception.map(function(x){ return x.toUpperCase(); })
-			return new PurposeRule(purpose, exception, getError(element));
+			let policyPurpose = element.policy ? element.policy.toUpperCase() == "ALLOW" ? true : false : true;
+			return new PurposeRule(policyPurpose, purpose, exception, getError(element));
 		default:
 			console.log("unknown");
 	}
