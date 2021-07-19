@@ -1,19 +1,22 @@
 [
   {
     "field": "TrackerDistance",
+		"category": "header",
     "operation": "CONTAINS",
     "compare": "user-agent",
     "value": "Chrome"
   },
 	{
     "field": "Id",
+		"category": "header",
     "operation": "CONTAINS",
     "compare": "user-agent",
     "value": "Postman"
   },
   {
     "field": "TotalSteps",
-    "operation": "PURPOSE",
-    "value": "track activity"
+		"category": "purpose",
+    "purpose": "health",
+		"exception": "prescriptive sleep analytics"
   }
 ]
