@@ -1,6 +1,8 @@
 const yaml = require('js-yaml');
 const fs = require('fs');
+const {AuthenticationError, UserInputError, ForbiddenError } = require('apollo-server');
 let rules = require('./rules.json');
+
 let ruleMap = new Map();
 
 const ControlPolicy = {
@@ -9,7 +11,7 @@ const ControlPolicy = {
 	BLOCKREQUEST: "BLOCKREQUEST"
 }
 
-const policy = ControlPolicy.DELETE;
+const policy = ControlPolicy.BLOCKREQUEST;
 
 class HeaderRule {
 	constructor(operation, comparison, value) {
@@ -52,14 +54,22 @@ module.exports = (options) => {
 				if (purposes != null) {
 					let validation = purposeExist(requestContext.request);
 					if (!validation)
-						blockRequest(requestContext);
+						throw new UserInputError('Purpose invalid');
 				}
 				if (ruleMap["*"] != undefined)
 					ruleMap["*"].forEach(element => {
 						if (!verifyRule(requestContext, element)) {
 							// block request
-							console.log("False: " + element);
-							requestContext.request.query = undefined;
+							switch (policy) {
+								case ControlPolicy.EMPTYSTRING:
+									requestContext.request.query = undefined;
+									break;
+								case ControlPolicy.DELETE:
+									requestContext.request.query = undefined;
+									break;
+								case ControlPolicy.BLOCKREQUEST:
+									throw new ForbiddenError("Forbidden");
+							}
 						} else {
 							// ignore
 							//console.log("true: " + element);
@@ -179,8 +189,7 @@ function deepFilter(obj, requestContext) {
 								delete obj[element];
 								break;
 							case ControlPolicy.BLOCKREQUEST:
-								console.log("TODO");
-								break;
+								throw new ForbiddenError("Forbidden");
 						}
 						
 					}

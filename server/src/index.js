@@ -5,6 +5,7 @@ const resolvers = require('./resolvers')
 const {database} = require("./db");
 
 const server = new ApolloServer({
+  debug: false,
   typeDefs,
 	resolvers,
 	plugins: [
