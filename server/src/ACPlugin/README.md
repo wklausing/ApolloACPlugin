@@ -29,9 +29,9 @@ Verify the request via request header
 
 **error**: optional argument, on default: EMPTYSTRING . Possible arguments:
 
-EMPTYSTRING: replace field value with an empty string
-DELETE: deletes the field completely
-FORBIDDEN: throws a forbidden at the user
+- EMPTYSTRING: replace field value with an empty string
+- DELETE: deletes the field completely
+- FORBIDDEN: throws a forbidden at the user
 
 ### Example:
 ```json
