@@ -1,6 +1,6 @@
 const yaml = require('js-yaml');
 const fs = require('fs');
-const {AuthenticationError, UserInputError, ForbiddenError } = require('apollo-server');
+const { UserInputError, ForbiddenError } = require('apollo-server');
 let rules = require('./rules.json');
 
 let ruleMap = new Map();
@@ -14,17 +14,19 @@ const ControlPolicy = {
 const policy = ControlPolicy.BLOCKREQUEST;
 
 class HeaderRule {
-	constructor(operation, comparison, value) {
+	constructor(operation, comparison, value, error) {
 		this.operation = operation;
 		this.comparison = comparison;
 		this.value = value;
+		this.error = error;
 	}
 }
 
 class PurposeRule {
-	constructor(purpose, exception) {
+	constructor(purpose, exception, error) {
 		this.purpose = purpose;
 		this.exception = exception;
+		this.error = error;
 	}
 }
 
@@ -60,7 +62,7 @@ module.exports = (options) => {
 					ruleMap["*"].forEach(element => {
 						if (!verifyRule(requestContext, element)) {
 							// block request
-							switch (policy) {
+							switch (element.error) {
 								case ControlPolicy.EMPTYSTRING:
 									requestContext.request.query = undefined;
 									break;
@@ -181,7 +183,7 @@ function deepFilter(obj, requestContext) {
 			if (ruleMap[element] != null)
 				ruleMap[element].forEach(rule => {
 					if(!verifyRule(requestContext, rule)) {
-						switch (policy) {
+						switch (rule.error) {
 							case ControlPolicy.EMPTYSTRING:
 								obj[element] = "";
 								break;
@@ -238,16 +240,42 @@ function getOperation(element) {
 			console.log("Header-Rule: " + element.operation + " " + element.compare + " " + element.value);
 			let value = Array.isArray(element.value) ? element.value : [element.value];
 			value = value.map(function(x){ return x.toUpperCase(); })
-			return new HeaderRule(element.operation, element.compare, value);
+			return new HeaderRule(element.operation, element.compare, value, getError(element));
 		case "PURPOSE":
 			console.log("Purpose-Rule: " + element.purpose + " " + (element.exception ? element.exception : "null"));
 			let purpose = Array.isArray(element.purpose) ? element.purpose : [element.purpose];
 			purpose = purpose.map(function(x){ return x.toUpperCase(); })
 			let exception = element.exception ? Array.isArray(element.exception) ? element.exception : [element.exception] : null;
 			exception = exception.map(function(x){ return x.toUpperCase(); })
-			return new PurposeRule(purpose, exception);
+			return new PurposeRule(purpose, exception, getError(element));
 		default:
 			console.log("unknown");
+	}
+}
+
+/**
+Parameters
+----------
+element: JSON Object
+
+Functionality
+----------
+Returns the control policy (hide the value, delete it or return a forbidden)
+**/
+function getError(element) {
+	if(element.error == undefined) return ControlPolicy.EMPTYSTRING;
+	else {
+		switch (element.error.toUpperCase()) {
+			case "EMPTYSTRING":
+				return ControlPolicy.EMPTYSTRING;
+			case "DELETE":
+				return ControlPolicy.DELETE;
+			case "FORBIDDEN":
+				return ControlPolicy.BLOCKREQUEST;
+			default:
+				console.log("Error doesn't exist: " + element.error);
+				return ControlPolicy.EMPTYSTRING;
+		}
 	}
 }
 

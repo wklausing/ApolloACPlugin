@@ -11,12 +11,14 @@
 		"category": "header",
     "operation": "CONTAINS",
     "compare": "user-agent",
-    "value": "Postman"
+    "value": "Postman",
+    "error": "delete"
   },
   {
     "field": "TotalSteps",
 		"category": "purpose",
     "purpose": "health",
-		"exception": "prescriptive sleep analytics"
+		"exception": "prescriptive sleep analytics",
+    "error": "emptystring"
   }
 ]
