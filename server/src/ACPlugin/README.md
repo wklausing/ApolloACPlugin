@@ -14,8 +14,9 @@ Verify the request via request header
     "category": "header",
     "operation": <Operation>,
     "compare": <String>,
-    "value": <String, Array of Strings>
-    "error": <ErrorHandling>*
+    "value": <String, Array of Strings>,
+    "error": <ErrorHandling>*,
+    "policy": <Allow/Deny>*
 }
 ```
 
@@ -33,6 +34,8 @@ Verify the request via request header
 - DELETE: deletes the field completely
 - FORBIDDEN: throws a forbidden at the user
 
+**policy**: optional argument, on default: "allow" which means that the rule only allows access to the field if the conditions are met. "deny" would do the opposite.
+
 ### Example:
 ```json
 {
@@ -40,11 +43,12 @@ Verify the request via request header
     "category": "header",
     "operation": "CONTAINS",
     "compare": "user-agent",
-    "value": "Chrome"
+    "value": "Chrome",
+    "policy": "deny"
 }
 ```
 
-This HeaderRule would display an empty string in the "TrackerDistance" field if the user-agent of the request didn't contain "Chrome".
+This HeaderRule would display an empty string in the "TrackerDistance" field if the user-agent of the request contain "Chrome".
 
 ## Purpose Access Control
 Verify the request via given purpose
@@ -57,6 +61,7 @@ Verify the request via given purpose
     "purpose": <String, Array of Strings>,
     "exception": <String, Array of Strings>
     "error": <ErrorHandling>*
+    "policy": <Allow/Deny>*
 }
 ```
 
@@ -76,3 +81,16 @@ Verify the request via given purpose
 ```
 
 This PurposeRule would delete the field "TotalSteps" if the stated purpose wasn't health or anything beneath it. "Prescriptive sleep analytics" is the only exception to that rule.
+
+```json
+{
+    "field": "TotalSteps",
+    "category": "purpose",
+    "purpose": "health",
+    "exception": "prescriptive sleep analytics",
+    "error": "delete",
+    "policy": "deny"
+}
+```
+
+This PurposeRule would delete the field "TotalSteps" if the stated purpose was health or anything beneath it. "Prescriptive sleep analytics" is the only exception to that rule.
