@@ -2,6 +2,9 @@ const { UserInputError, ForbiddenError } = require('apollo-server');
 const yaml = require('js-yaml');
 const fs = require('fs');
 
+const log = require('simple-node-logger').createSimpleFileLogger('time.log');
+log.setLevel('info');
+
 let ruleMap = new Map(); // Contains all rules in rules.json
 let cachedDecision = new Map();	// Saves rule outcomes for each request, so rules won't have to be verified multiple times 
 
@@ -81,7 +84,7 @@ module.exports = (options) => {
 						deepFilter(requestContext.response.data, requestContext);
 						cachedDecision = new Map();
 						let end = new Date().getTime();
-						console.log(end - start + "ms");
+						log.info(end-start);
 					}
 				}
 			}
