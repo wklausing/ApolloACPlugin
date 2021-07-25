@@ -10,6 +10,7 @@ const server = new ApolloServer({
 	resolvers,
 	plugins: [
 		require('./ACPlugin/plugin'),
+    // require('./LoggerPlugin/plugin'),
   ],
 })
 

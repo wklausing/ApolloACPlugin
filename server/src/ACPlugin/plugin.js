@@ -2,7 +2,7 @@ const { UserInputError, ForbiddenError } = require('apollo-server');
 const yaml = require('js-yaml');
 const fs = require('fs');
 
-const log = require('simple-node-logger').createSimpleFileLogger('time.log');
+const log = require('simple-node-logger').createSimpleFileLogger('AC_time.log');
 log.setLevel('info');
 
 let ruleMap = new Map(); // Contains all rules in rules.json
@@ -53,9 +53,9 @@ module.exports = (options) => {
 			}
 		},
 		requestDidStart(requestContext) {
-			let start = new Date().getTime();
-
 			if (requestContext.request.operationName != 'IntrospectionQuery') {
+				let start = new Date().getTime();
+				
 				// See request header information
 				//console.log(requestContext.request.http.headers);
 				if (purposes != null) {
