@@ -1,14 +1,15 @@
+const { UserInputError, ForbiddenError } = require('apollo-server');
 const yaml = require('js-yaml');
 const fs = require('fs');
-const { UserInputError, ForbiddenError } = require('apollo-server');
-let rules = require('./rules.json');
 
-let ruleMap = new Map();
+let ruleMap = new Map(); // Contains all rules in rules.json
+let cachedDecision = new Map();	// Saves rule outcomes for each request, so rules won't have to be verified multiple times 
 
 const ControlPolicy = {
 	EMPTYSTRING: "EMPTYSTRING",
 	DELETE: "DELETE",
-	BLOCKREQUEST: "BLOCKREQUEST"
+	BLOCKREQUEST: "BLOCKREQUEST",
+	APPROVED: "APPROVED"
 }
 
 class HeaderRule {
@@ -30,7 +31,7 @@ class PurposeRule {
 	}
 }
 
-processRules(rules);
+processRulesJSON();
 
 let purposes = null;
 let allPurposes = [];
@@ -49,10 +50,11 @@ module.exports = (options) => {
 			}
 		},
 		requestDidStart(requestContext) {
+			let start = new Date().getTime();
+
 			if (requestContext.request.operationName != 'IntrospectionQuery') {
 				// See request header information
 				//console.log(requestContext.request.http.headers);
-
 				if (purposes != null) {
 					let validation = purposeExist(requestContext.request);
 					if (!validation)
@@ -70,16 +72,16 @@ module.exports = (options) => {
 									requestContext.request.query = undefined;
 									break;
 								case ControlPolicy.BLOCKREQUEST:
-									throw new ForbiddenError("Forbidden");
+									throw new ForbiddenError("Bad Request");
 							}
-						} else {
-							// ignore
-							//console.log("true: " + element);
 						}
 					});
 				return {
 					willSendResponse(requestContext) {
 						deepFilter(requestContext.response.data, requestContext);
+						cachedDecision = new Map();
+						let end = new Date().getTime();
+						console.log(end - start + "ms");
 					}
 				}
 			}
@@ -180,22 +182,45 @@ function validPurpose(purpose) {
 function deepFilter(obj, requestContext) {
 	if (typeof (obj) == "object") {
 		Object.keys(obj).forEach(element => {
-			if (ruleMap[element] != null)
-				ruleMap[element].forEach(rule => {
-					if(rule.policy != verifyRule(requestContext, rule)) {
-						switch (rule.error) {
-							case ControlPolicy.EMPTYSTRING:
-								obj[element] = "";
-								break;
-							case ControlPolicy.DELETE:
-								delete obj[element];
-								break;
-							case ControlPolicy.BLOCKREQUEST:
-								throw new ForbiddenError("Forbidden");
-						}
-						
+			if (ruleMap[element] != null) {
+				if(cachedDecision[element] != null) {
+					// Get previous verification outcome
+					switch (cachedDecision[element]) {
+						case ControlPolicy.APPROVED:
+							break;
+						case ControlPolicy.EMPTYSTRING:
+							obj[element] = "";
+							break;
+						case ControlPolicy.DELETE:
+							delete obj[element];
+							break;
+						case ControlPolicy.BLOCKREQUEST:
+							throw new ForbiddenError("Bad Request");
 					}
-				});
+				} else {
+					// Verify and edit value if necessary
+					ruleMap[element].forEach(rule => {
+						if(rule.policy != verifyRule(requestContext, rule)) {
+							switch (rule.error) {
+								case ControlPolicy.EMPTYSTRING:
+									obj[element] = "";
+									cachedDecision[element] = ControlPolicy.EMPTYSTRING;
+									break;
+								case ControlPolicy.DELETE:
+									delete obj[element];
+									cachedDecision[element] = ControlPolicy.DELETE;
+									break;
+								case ControlPolicy.BLOCKREQUEST:
+									cachedDecision[element] = ControlPolicy.BLOCKREQUEST;
+									throw new ForbiddenError("Forbidden");
+							}
+							
+						} else {
+							cachedDecision[element] = ControlPolicy.APPROVED;
+						}
+					});
+				}
+			}
 			deepFilter(obj[element], requestContext);
 		})
 	}
@@ -215,7 +240,8 @@ Functionality
 ----------
 Goes through the JSON array and adds the rules into ruleMap
 **/
-function processRules(rules) {
+function processRulesJSON() {
+	let rules = require('./rules.json');
 	rules.forEach(element => {
 		if (ruleMap[element.field] == null) {
 			ruleMap[element.field] = [getOperation(element)];
@@ -410,18 +436,4 @@ function verifyHeaderRule(headerInfo, rule) {
 			break;
 	}
 	return valid;
-}
-
-/**
-Parameters
-----------
-requestContext: Object
-
-Functionality
-----------
-Rejects the current request
-**/
-function blockRequest(requestContext) {
-	console.log("Blocking request..");
-	requestContext.request.query = null;
 }
