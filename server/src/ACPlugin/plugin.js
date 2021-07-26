@@ -47,7 +47,7 @@ module.exports = (logging) => {
 	return {
 		serverWillStart() {
 			if(logging) {
-				log = require('simple-node-logger').createSimpleFileLogger('AC_time.log');
+				log = require('simple-node-logger').createSimpleFileLogger('time_with_AC.log');
 				log.setLevel('info');
 			}
 			try {
@@ -62,8 +62,7 @@ module.exports = (logging) => {
 		},
 		requestDidStart(requestContext) {
 			if (requestContext.request.operationName != 'IntrospectionQuery') {
-				if(logging) start = new Date().getTime();
-				
+				if(logging) start =  process.hrtime.bigint();
 				if (purposes != null) {
 					let validation = purposeExist(requestContext.request);
 					if (!validation)
@@ -95,7 +94,7 @@ module.exports = (logging) => {
 
 						// Log if activated
 						if(logging) {
-							end = new Date().getTime();
+							end =  process.hrtime.bigint();
 							log.info(end-start);
 						}
 					}

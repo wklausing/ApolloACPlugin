@@ -11,7 +11,6 @@ const resolvers = {
               }
               resolve(rows);
               rows.shift();
-              console.log(rows)
           });
       });
     },
@@ -24,7 +23,6 @@ const resolvers = {
               }
               resolve(rows);
               rows.shift();
-              console.log(rows)
           });
       });
     },
@@ -36,7 +34,6 @@ const resolvers = {
                   reject([]);
               }
               resolve(rows);
-              //console.log(rows)
           });
       });
     },
@@ -49,7 +46,6 @@ const resolvers = {
               }
               resolve(rows);
               rows.shift();
-              //console.log(rows)
           });
       });
     },
@@ -62,7 +58,6 @@ const resolvers = {
               }
               resolve(rows);
               rows.shift();
-              console.log(rows)
           });
       });
     },
@@ -75,7 +70,6 @@ const resolvers = {
               }
               resolve(rows);
               rows.shift();
-              console.log(rows)
           });
       });
     },
@@ -88,7 +82,6 @@ const resolvers = {
               }
               resolve(rows);
               rows.shift();
-              console.log(rows)
           });
       });
     },
@@ -101,7 +94,6 @@ const resolvers = {
               }
               resolve(rows);
               rows.shift();
-              console.log(rows)
           });
       });
     },
@@ -114,7 +106,6 @@ const resolvers = {
               }
               resolve(rows);
               rows.shift();
-              console.log(rows)
           });
       });
     },
@@ -134,7 +125,6 @@ const resolvers = {
                       console.log('InsertDailyActivity: Select failed')
                   }
                   resolve(rows);
-                  //console.log(rows)
               });
           });
       })
@@ -153,7 +143,6 @@ const resolvers = {
                       console.log('DeleteDailyActivity: Select failed')
                   }
                   resolve(rows);
-                  //console.log(rows)
               });
           });
       })
