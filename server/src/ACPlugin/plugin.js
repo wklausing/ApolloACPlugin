@@ -2,12 +2,13 @@ const { UserInputError, ForbiddenError } = require('apollo-server');
 const yaml = require('js-yaml');
 const fs = require('fs');
 
-const log = require('simple-node-logger').createSimpleFileLogger('AC_time.log');
-log.setLevel('info');
-
 let ruleMap = new Map(); // Contains all rules in rules.json
 let cachedDecision = new Map();	// Saves rule outcomes for each request, so rules won't have to be verified multiple times 
 
+let log = null;	// logging variable
+let start, end = 0; // For logging purposes
+
+// Policies - what action to take if a rule is broken
 const ControlPolicy = {
 	EMPTYSTRING: "EMPTYSTRING",
 	DELETE: "DELETE",
@@ -15,6 +16,7 @@ const ControlPolicy = {
 	APPROVED: "APPROVED"
 }
 
+// Access Control based on request header information
 class HeaderRule {
 	constructor(policy, operation, comparison, value, error) {
 		this.policy = policy;
@@ -25,6 +27,7 @@ class HeaderRule {
 	}
 }
 
+// Access control based on purpose (given via GraphQL Variable)
 class PurposeRule {
 	constructor(policy, purpose, exception, error) {
 		this.policy = policy;
@@ -34,16 +37,21 @@ class PurposeRule {
 	}
 }
 
-processRulesJSON();
+processRulesJSON(); // Loads rule.json
 
 let purposes = null;
 let allPurposes = [];
 
 
-module.exports = (options) => {
+module.exports = (logging) => {
 	return {
 		serverWillStart() {
+			if(logging) {
+				log = require('simple-node-logger').createSimpleFileLogger('AC_time.log');
+				log.setLevel('info');
+			}
 			try {
+				// Read purpose.yml and load the purpose tree
 				purposesYaml = yaml.load(fs.readFileSync(__dirname + '/purpose.yml', 'utf8'));
 				purposes = new Map();
 				createPurposeTree(purposesYaml);
@@ -54,10 +62,8 @@ module.exports = (options) => {
 		},
 		requestDidStart(requestContext) {
 			if (requestContext.request.operationName != 'IntrospectionQuery') {
-				let start = new Date().getTime();
+				if(logging) start = new Date().getTime();
 				
-				// See request header information
-				//console.log(requestContext.request.http.headers);
 				if (purposes != null) {
 					let validation = purposeExist(requestContext.request);
 					if (!validation)
@@ -81,10 +87,17 @@ module.exports = (options) => {
 					});
 				return {
 					willSendResponse(requestContext) {
+						// Edit response json if necessary
 						deepFilter(requestContext.response.data, requestContext);
+
+						// Reset cached decisions
 						cachedDecision = new Map();
-						let end = new Date().getTime();
-						log.info(end-start);
+
+						// Log if activated
+						if(logging) {
+							end = new Date().getTime();
+							log.info(end-start);
+						}
 					}
 				}
 			}
@@ -188,36 +201,12 @@ function deepFilter(obj, requestContext) {
 			if (ruleMap[element] != null) {
 				if(cachedDecision[element] != null) {
 					// Get previous verification outcome
-					switch (cachedDecision[element]) {
-						case ControlPolicy.APPROVED:
-							break;
-						case ControlPolicy.EMPTYSTRING:
-							obj[element] = "";
-							break;
-						case ControlPolicy.DELETE:
-							delete obj[element];
-							break;
-						case ControlPolicy.BLOCKREQUEST:
-							throw new ForbiddenError("Bad Request");
-					}
+					processValidation(cachedDecision[element], obj, element, false);
 				} else {
 					// Verify and edit value if necessary
 					ruleMap[element].forEach(rule => {
 						if(rule.policy != verifyRule(requestContext, rule)) {
-							switch (rule.error) {
-								case ControlPolicy.EMPTYSTRING:
-									obj[element] = "";
-									cachedDecision[element] = ControlPolicy.EMPTYSTRING;
-									break;
-								case ControlPolicy.DELETE:
-									delete obj[element];
-									cachedDecision[element] = ControlPolicy.DELETE;
-									break;
-								case ControlPolicy.BLOCKREQUEST:
-									cachedDecision[element] = ControlPolicy.BLOCKREQUEST;
-									throw new ForbiddenError("Forbidden");
-							}
-							
+							processValidation(rule.error, obj, element, true);
 						} else {
 							cachedDecision[element] = ControlPolicy.APPROVED;
 						}
@@ -231,6 +220,37 @@ function deepFilter(obj, requestContext) {
 		obj.forEach(element => {
 			deepFilter(element, requestContext);
 		})
+	}
+}
+
+/**
+Parameters
+----------
+error: what policy to process
+obj: response json
+element: response field
+cache: whether to add into cached decisions or not
+
+Functionality
+----------
+Changes response json depending on the error var
+**/
+function processValidation(error, obj, element, cache) {
+	switch (error) {
+		case ControlPolicy.APPROVED:
+			if(cache) cachedDecision[element] = ControlPolicy.APPROVED;
+			break;
+		case ControlPolicy.EMPTYSTRING:
+			if(cache) cachedDecision[element] = ControlPolicy.EMPTYSTRING;
+			obj[element] = "";
+			break;
+		case ControlPolicy.DELETE:
+			if(cache) 	cachedDecision[element] = ControlPolicy.DELETE;
+			delete obj[element];
+			break;
+		case ControlPolicy.BLOCKREQUEST:
+			cachedDecision = new Map();
+			throw new ForbiddenError("Bad Request");
 	}
 }
 
@@ -346,6 +366,7 @@ Functionality
 Checks if the request meets the purpose rule's condition
  */
 function verifyPurposeRule(purpose, rule) {
+	console.log(purpose);
 	let valid = false;
 	// Check if the given purpose is an exception
 	if(rule.exception != null) {

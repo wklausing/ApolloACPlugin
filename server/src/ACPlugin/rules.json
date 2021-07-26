@@ -20,6 +20,6 @@
 		"category": "purpose",
     "purpose": "health",
 		"exception": "prescriptive sleep analytics",
-    "error": "emptystring"
+    "error": "forbidden"
   }
 ]
