@@ -40,9 +40,9 @@ stream.pipe(csvStream);
 console.log("Added DailyActivities data.")
 
 //HeartratePerSeconds
-let stream = fs.createReadStream("../dataset/fitbitData/heartrate_seconds_merged.csv");
-let csvData = [];
-let csvStream = fastcsv
+stream = fs.createReadStream("../dataset/fitbitData/heartrate_seconds_merged.csv");
+csvData = [];
+csvStream = fastcsv
   .parse()
   .on("data", function(data) {
     csvData.push(data);
@@ -69,9 +69,9 @@ stream.pipe(csvStream);
 console.log("Added HeartratePerSeconds data.")
 
 //Persons
-let stream = fs.createReadStream("../dataset/Persons.csv");
-let csvData = [];
-let csvStream = fastcsv
+stream = fs.createReadStream("../dataset/Persons.csv");
+csvData = [];
+csvStream = fastcsv
   .parse()
   .on("data", function(data) {
     csvData.push(data);
