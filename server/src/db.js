@@ -132,18 +132,6 @@ const createFitBitDB = () => {
   });
 
   query = `
-    CREATE TABLE IF NOT EXISTS DailySteps (
-      Id bigint,
-      ActivityDay varchar(10),
-      Calories integer,
-      PRIMARY KEY (Id, ActivityDay)
-   )`;
-  database.query(query, function(error) {
-    if (error) throw error;
-  });
-
-
-  query = `
     CREATE TABLE IF NOT EXISTS DailyIntensities (
       Id bigint,
       ActivityDay varchar(10),

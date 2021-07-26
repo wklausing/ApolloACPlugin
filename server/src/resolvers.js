@@ -2,6 +2,19 @@ const {database} = require("./db");
 
 const resolvers = {
   Query: {
+    async Persons (_, __, ___) {
+      return new Promise((resolve, reject) => {
+          // raw SQLite query to select from table
+          database.query('SELECT * FROM Persons;', function(err, rows) {
+              if(err){
+                  reject([]);
+              }
+              resolve(rows);
+              rows.shift();
+              console.log(rows)
+          });
+      });
+    },
     async DailyActivities (_, __, ___) {
       return new Promise((resolve, reject) => {
           // raw SQLite query to select from table
@@ -37,6 +50,71 @@ const resolvers = {
               resolve(rows);
               rows.shift();
               //console.log(rows)
+          });
+      });
+    },
+    async SleepDays (_, __, ___) {
+      return new Promise((resolve, reject) => {
+          // raw SQLite query to select from table
+          database.query('SELECT * FROM SleepDays;', function(err, rows) {
+              if(err){
+                  reject([]);
+              }
+              resolve(rows);
+              rows.shift();
+              console.log(rows)
+          });
+      });
+    },
+    async WeightPounds (_, __, ___) {
+      return new Promise((resolve, reject) => {
+          // raw SQLite query to select from table
+          database.query('SELECT * FROM WeightPounds;', function(err, rows) {
+              if(err){
+                  reject([]);
+              }
+              resolve(rows);
+              rows.shift();
+              console.log(rows)
+          });
+      });
+    },
+    async HourlyIntensities (_, __, ___) {
+      return new Promise((resolve, reject) => {
+          // raw SQLite query to select from table
+          database.query('SELECT * FROM HourlyIntensities;', function(err, rows) {
+              if(err){
+                  reject([]);
+              }
+              resolve(rows);
+              rows.shift();
+              console.log(rows)
+          });
+      });
+    },
+    async DailySteps (_, __, ___) {
+      return new Promise((resolve, reject) => {
+          // raw SQLite query to select from table
+          database.query('SELECT * FROM DailySteps;', function(err, rows) {
+              if(err){
+                  reject([]);
+              }
+              resolve(rows);
+              rows.shift();
+              console.log(rows)
+          });
+      });
+    },
+    async DailyIntensities (_, __, ___) {
+      return new Promise((resolve, reject) => {
+          // raw SQLite query to select from table
+          database.query('SELECT * FROM DailyIntensities;', function(err, rows) {
+              if(err){
+                  reject([]);
+              }
+              resolve(rows);
+              rows.shift();
+              console.log(rows)
           });
       });
     },
