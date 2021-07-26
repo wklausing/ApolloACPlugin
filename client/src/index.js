@@ -13,18 +13,24 @@ const client = new ApolloClient({
   cache: new InMemoryCache()
 });
 
+const gQuery = gql`
+query getDailyActivity($purpose: String!){
+  DailyActivity(Purpose: $purpose, Id: 8877689391) {
+    Id
+    ActivityDate
+  }
+}
+`;
+
 function ExchangeRates() {
-  const { loading, error, data } = useQuery(gql`
-    query {
-      DailyActivity(Id: 8877689391) {
-        Id
-        ActivityDate
-      }
+  const { loading, error, data } = useQuery(gQuery, {
+    variables: {
+      purpose: "health"
     }
-  `);
+  });
 
   if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error :(</p>;
+  if (error) return <p>Error!</p>;
 
   return data.DailyActivity.map(({ Id, ActivityDate }) => (
     <div key={Id}>
