@@ -91,20 +91,20 @@ const typeDefs = gql`
   type Query {
     Persons: [Persons]
 
-    DailyActivities: [DailyActivities]
-    DailyActivity(Id: Float!): [DailyActivities]
+    DailyActivities(Purpose: String!): [DailyActivities]
+    DailyActivity(Purpose: String!, Id: Float!): [DailyActivities]
 
-    HeartratePerSeconds(Id: Float): [HeartratePerSeconds]
+    HeartratePerSeconds(Purpose: String!, Id: Float): [HeartratePerSeconds]
 
-    SleepDays: [SleepDays]
+    SleepDays(Purpose: String!): [SleepDays]
 
-    WeightPounds: [WeightPounds]
+    WeightPounds(Purpose: String!): [WeightPounds]
 
-    HourlyIntensities: [HourlyIntensities]
+    HourlyIntensities(Purpose: String!): [HourlyIntensities]
 
-    DailySteps: [DailySteps]
+    DailySteps(Purpose: String!): [DailySteps]
 
-    DailyIntensities: [DailyIntensities]
+    DailyIntensities(Purpose: String!): [DailyIntensities]
   }
 
   type Mutation {
