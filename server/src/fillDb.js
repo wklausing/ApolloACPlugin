@@ -7,8 +7,37 @@ const connection = mysql.createConnection({
   host     : 'localhost',
   user     : 'root',
   password : '',
-  database : 'mysql'
+  database : 'fitbit'
 });
+
+//Persons
+let stream3 = fs.createReadStream("../dataset/Persons.csv");
+let csvData3 = [];
+let csvStream3 = fastcsv
+  .parse()
+  .on("data", function(data) {
+    csvData3.push(data);
+  })
+  .on("end", function() {
+  // remove the first line: header
+  csvData3.shift();
+
+  // open the connection
+  connection.connect(error => {
+    if (error) {
+      console.error(error);
+    } else {
+      for(var i = 0; i < csvData3.length; i++) {
+        connection.query('INSERT INTO Persons (Id,First_name,Last_name,Company_name,Address,City,County,State,Zip,Phone1,Phone2,Email,Web) VALUES ?;',
+        [csvData3], (error, response) => {
+          console.log(error || response);
+        });
+      }
+    }
+  });
+});
+stream3.pipe(csvStream3);
+console.log("Added Persons data. DONE")
 
 //DailyActivities
 let stream = fs.createReadStream("../dataset/fitbitData/dailyActivity_merged.csv");
@@ -67,35 +96,6 @@ let csvStream2 = fastcsv
 });
 stream2.pipe(csvStream2);
 console.log("Added HeartratePerSeconds data.")
-
-//Persons
-let stream3 = fs.createReadStream("../dataset/Persons.csv");
-let csvData3 = [];
-let csvStream3 = fastcsv
-  .parse()
-  .on("data", function(data) {
-    csvData3.push(data);
-  })
-  .on("end", function() {
-  // remove the first line: header
-  csvData3.shift();
-
-  // open the connection
-  connection.connect(error => {
-    if (error) {
-      console.error(error);
-    } else {
-      for(var i = 0; i < csvData3.length; i++) {
-        connection.query('INSERT INTO Persons (Id,First_name,Last_name,Company_name,Address,City,County,State,Zip,Phone1,Phone2,Email,Web) VALUES ?;',
-        [csvData3], (error, response) => {
-          console.log(error || response);
-        });
-      }
-    }
-  });
-});
-stream3.pipe(csvStream3);
-console.log("Added Persons data. DONE")
 
 //Daily Calories
 let stream4 = fs.createReadStream("../dataset/dailyCalories_merged.csv");
@@ -202,7 +202,7 @@ let csvStream7 = fastcsv
       console.error(error);
     } else {
       for(var i = 0; i < csvData7.length; i++) {
-        connection.query('INSERT INTO SleepDay (Id,SleepDay,TotalSleepRecords,TotalMinutesAsleep,TotalTimeInBed) VALUES ?;',
+        connection.query('INSERT INTO SleepDays (Id,SleepDay,TotalSleepRecords,TotalMinutesAsleep,TotalTimeInBed) VALUES ?;',
         [csvData7], (error, response) => {
           console.log(error || response);
         });
@@ -212,4 +212,3 @@ let csvStream7 = fastcsv
 });
 stream7.pipe(csvStream7);
 console.log("Added Sleep Day data. DONE")
-
