@@ -89,7 +89,8 @@ const typeDefs = gql`
 
 
   type Query {
-    Persons: [Persons]
+    Persons(Purpose: String!): [Persons]
+    Person(Purpose: String!, Id: Float!): [Persons]
 
     DailyActivities(Purpose: String!): [DailyActivities]
     DailyActivity(Purpose: String!, Id: Float!): [DailyActivities]
@@ -97,14 +98,19 @@ const typeDefs = gql`
     HeartratePerSeconds(Purpose: String!, Id: Float, Time: String): [HeartratePerSeconds]
 
     SleepDays(Purpose: String!): [SleepDays]
+    SleepDaysOf(Purpose: String!, Id: Float): [SleepDays]
 
     WeightPounds(Purpose: String!): [WeightPounds]
+    WeightPoundsOf(Purpose: String!, Id: Float): [WeightPounds]
 
     HourlyIntensities(Purpose: String!): [HourlyIntensities]
+    HourlyIntensitiesOf(Purpose: String!, Id: Float): [HourlyIntensities]
 
     DailySteps(Purpose: String!): [DailySteps]
+    DailyStepsOf(Purpose: String!, Id: Float): [DailySteps]
 
     DailyIntensities(Purpose: String!): [DailyIntensities]
+    DailyIntensitiesOf(Purpose: String!, Id: Float): [DailyIntensities]
   }
 
   type Mutation {

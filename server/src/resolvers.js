@@ -3,15 +3,26 @@ const {database} = require("./db");
 const resolvers = {
   Query: {
     async Persons (_, __, ___) {
+        return new Promise((resolve, reject) => {
+            // raw SQLite query to select from table
+            database.query('SELECT * FROM Persons;', function(err, rows) {
+                if(err){
+                    reject([]);
+                }
+                resolve(rows);
+                rows.shift();
+            });
+        });
+      },
+    async Person (_, {Id}, ___) {
       return new Promise((resolve, reject) => {
           // raw SQLite query to select from table
-          database.query('SELECT * FROM Persons;', function(err, rows) {
-              if(err){
-                  reject([]);
-              }
-              resolve(rows);
-              rows.shift();
-          });
+          database.query('SELECT * FROM Persons WHERE Id = (?);', [Id], function(err, rows) {
+            if(err){
+                reject([]);
+            }
+            resolve(rows);
+        });
       });
     },
     async DailyActivities (_, __, ___) {
@@ -61,6 +72,17 @@ const resolvers = {
           });
       });
     },
+    async SleepDaysOf (_, {Id}, ___) {
+        return new Promise((resolve, reject) => {
+            // raw SQLite query to select from table
+            database.query('SELECT * FROM SleepDays WHERE Id = (?);', [Id], function(err, rows) {
+                if(err){
+                    reject([]);
+                }
+                resolve(rows);
+            });
+        });
+      },
     async WeightPounds (_, __, ___) {
       return new Promise((resolve, reject) => {
           // raw SQLite query to select from table
@@ -73,6 +95,17 @@ const resolvers = {
           });
       });
     },
+    async WeightPoundsOf (_, {Id}, ___) {
+        return new Promise((resolve, reject) => {
+            // raw SQLite query to select from table
+            database.query('SELECT * FROM WeightPounds WHERE Id = (?);', [Id], function(err, rows) {
+                if(err){
+                    reject([]);
+                }
+                resolve(rows);
+            });
+        });
+      },
     async HourlyIntensities (_, __, ___) {
       return new Promise((resolve, reject) => {
           // raw SQLite query to select from table
@@ -85,6 +118,17 @@ const resolvers = {
           });
       });
     },
+    async HourlyIntensitiesOf (_, {Id}, ___) {
+        return new Promise((resolve, reject) => {
+            // raw SQLite query to select from table
+            database.query('SELECT * FROM HourlyIntensities WHERE Id = (?);', [Id], function(err, rows) {
+                if(err){
+                    reject([]);
+                }
+                resolve(rows);
+            });
+        });
+      },
     async DailySteps (_, __, ___) {
       return new Promise((resolve, reject) => {
           // raw SQLite query to select from table
@@ -97,9 +141,19 @@ const resolvers = {
           });
       });
     },
+    async DailyStepsOf (_, {Id}, ___) {
+        return new Promise((resolve, reject) => {
+            // raw SQLite query to select from table
+            database.query('SELECT * FROM DailySteps WHERE Id = (?);', [Id], function(err, rows) {
+                if(err){
+                    reject([]);
+                }
+                resolve(rows);
+            });
+        });
+      },
     async DailyIntensities (_, __, ___) {
       return new Promise((resolve, reject) => {
-          console.log("hi");
           // raw SQLite query to select from table
           database.query('SELECT * FROM DailyIntensities;', function(err, rows) {
               if(err){
@@ -110,6 +164,17 @@ const resolvers = {
           });
       });
     },
+    async DailyIntensitiesOf (_, {Id}, ___) {
+        return new Promise((resolve, reject) => {
+            // raw SQLite query to select from table
+            database.query('SELECT * FROM DailyIntensities WHERE Id = (?);', [Id], function(err, rows) {
+                if(err){
+                    reject([]);
+                }
+                resolve(rows);
+            });
+        });
+      },
   },
   Mutation: {
     async InsertDailyActivity (_, {Id,ActivityDate,TotalSteps}, ___) {
