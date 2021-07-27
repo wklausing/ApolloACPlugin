@@ -10,7 +10,7 @@ Verify the request via request header
 ### Skeleton:
 ```json
 {
-    "field": <String>,
+    "field": <String, Array of Strings>,
     "category": "header",
     "operation": <Operation>,
     "compare": <String>,
@@ -56,7 +56,7 @@ Verify the request via given purpose
 ### Skeleton:
 ```json
 {
-    "field": <String>,
+    "field": <String, Array of Strings>,
     "category": "purpose",
     "purpose": <String, Array of Strings>,
     "exception": <String, Array of Strings>
