@@ -91,7 +91,7 @@ query getDailyActivity($Purpose: String!){
 ```
 
 
-
+```
 query getDailyActivity($Purpose: String!){
   DailyActivity(Purpose: $Purpose){
     Id,
@@ -111,7 +111,9 @@ query getDailyActivity($Purpose: String!){
     Calories
   }
 }
+```
 
+```
 query getDailyActivity($Purpose: String!){
   DailyActivity(Purpose: $Purpose, Id: 8877689391){
     Id,
@@ -131,9 +133,11 @@ query getDailyActivity($Purpose: String!){
     Calories
   }
 }
+```
 
-Mutation zum testen
+## Mutation zum testen
 * Wirft Fehler falls Eintrag schon existiert
+* ```
 mutation{
   InsertDailyActivity(Id: 21, ActivityDate: "5/12/2021", TotalSteps: 500) {
     Id,
@@ -153,3 +157,4 @@ mutation{
     Calories
   }
 }
+```
