@@ -4,8 +4,10 @@ let fs = require('fs');
 let ac_times = [];
 let no_ac_times = [];
 
-let ac_log = fs.readFileSync("../server/src/time_with_AC.log", 'utf8');
-let no_ac_log = fs.readFileSync("../server/src/time_without_AC.log", 'utf8');
+let testNumber = 3;
+
+let ac_log = fs.readFileSync("../server/src/test" + testNumber + "_with_AC.log", 'utf8');
+let no_ac_log = fs.readFileSync("../server/src/test" + testNumber + "_without_AC.log", 'utf8');
 
 let lines = ac_log.split('\n');
 
