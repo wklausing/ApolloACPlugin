@@ -20,21 +20,15 @@ Verify the request via request header
 }
 ```
 
-**field**: which field this rule applies to , "*" for all fields
+| Attribute  | Description |
+| ------------- | ------------- |
+| field | which field this rule applies to , "*" for all fields |
+| operation | use one of the following [CONTAINS, EQUAL, UNEQUAL, GREATER, LESS, GEQ, LEQ] |
+| compare | which header attribute needs to be checked |
+| value | the value the header attribute needs to have based on operation. if operation == CONTAINS, the header attribute needs to contain the given value. If it is an array, the header attribute needs to contain one of the given values. |
+| error* | optional argument, on default: EMPTYSTRING . Possible arguments: <br /><br />*EMPTYSTRING* (replace field value with an empty string), <br />*DELETE* (deletes the field completely) <br />*FORBIDDEN* (throws a forbidden at the user) |
+| policy* | optional argument, on default: "allow" which means that the rule only allows access to the field if the conditions are met. "deny" would do the opposite. |
 
-**operation**: use one of the following [CONTAINS, EQUAL, UNEQUAL, GREATER, LESS, GEQ, LEQ]
-
-**compare**: which header attribute needs to be checked
-
-**value**: the value the header attribute needs to have based on operation. if operation == CONTAINS, the header attribute needs to contain the given value. If it is an array, the header attribute needs to contain one of the given values.
-
-**error**: optional argument, on default: EMPTYSTRING . Possible arguments:
-
-- EMPTYSTRING: replace field value with an empty string
-- DELETE: deletes the field completely
-- FORBIDDEN: throws a forbidden at the user
-
-**policy**: optional argument, on default: "allow" which means that the rule only allows access to the field if the conditions are met. "deny" would do the opposite.
 
 ### Example:
 ```json
@@ -65,9 +59,12 @@ Verify the request via given purpose
 }
 ```
 
-**purpose**: The purpose(s) and everything beneath it that are allowed for the field
+| Attribute  | Description |
+| ------------- | ------------- |
+| purpose | The purpose(s) and everything beneath it that are allowed for the field |
+| exception | If a purpose beneath the given purpose isn't allowed to see the field |
 
-**exception**: If a purpose beneath the given purpose isn't allowed to see the field
+Other attribute descriptions can be seen above.
 
 ### Example:
 ```json
