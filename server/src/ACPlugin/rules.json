@@ -7,11 +7,12 @@
       "Email",
       "Web"
     ],
-    "category": ["purpose", "marketing"],
+    "category": "purpose",
     "purpose": [
       "track activity",
       "social fitness",
-      "health"
+      "health",
+      "marketing"
     ],
     "error": "emptystring"
   },
