@@ -1,25 +1,105 @@
 [
   {
-    "field": "TrackerDistance",
-		"category": "header",
-    "operation": "CONTAINS",
-    "compare": "user-agent",
-    "value": "Chrome"
-  },
-	{
-    "field": "Id",
-		"category": "header",
-    "operation": "CONTAINS",
-    "compare": "user-agent",
-    "value": "Postman",
-    "error": "delete"
+    "policy": "allow",
+		"field": ["First_name", "Last_name", "Email", "Web"],
+		"category": "purpose",
+    "purpose": ["track activity", "social fitness"],
+    "error": "emptystring"
   },
   {
-    "policy": "deny",
-		"field": "TotalSteps",
+    "policy": "allow",
+		"field": [
+      "Company_name",
+      "Address",
+      "City",
+      "Zip",
+      "Phone1",
+      "Phone2"],
 		"category": "purpose",
-    "purpose": "health",
-		"exception": "prescriptive sleep analytics",
-    "error": "forbidden"
+    "purpose": "track activity",
+    "error": "emptystring"
+  },
+  {
+    "policy": "allow",
+		"field": ["County", "State"],
+		"category": "purpose",
+    "purpose": ["personalized marketing", "track activity"],
+    "error": "emptystring"
+  },
+  {
+    "policy": "allow",
+		"field": [
+      "ActivityDate",
+      "TotalSteps",
+      "TotalDistance",
+      "TrackerDistance",
+      "LoggedActivitiesDistance",
+      "VeryActiveDistance",
+      "ModeratelyActiveDistance",
+      "LightActiveDistance",
+      "SedentaryActiveDistance",
+      "VeryActiveMinutes",
+      "FairlyActiveMinutes",
+      "LightlyActiveMinutes",
+      "SedentaryMinutes",
+      "Calories"
+    ],
+		"category": "purpose",
+    "purpose": ["health", "track activity", "influencer marketing"],
+    "error": "emptystring"
+  },
+  {
+    "policy": "allow",
+		"field": ["Time", "Value"],
+		"category": "purpose",
+    "purpose": [
+      "descriptive cardiovascular analytics",
+      "diagnostic cardiovascular analytics",
+      "predictive cardiovascular analytics",
+      "prescriptive cardiovascular analytics",
+      "track activity",
+      "cardiovascular research"
+    ],
+    "error": "emptystring"
+  },
+  {
+    "policy": "allow",
+		"field": ["SleepDay", "TotalSleepRecords", "TotalMinutesAsleep", "TotalTimeInBed"],
+		"category": "purpose",
+    "purpose": ["health", "track activity", "research"],
+    "error": "emptystring"
+  },
+  {
+    "policy": "allow",
+		"field": ["Date", "WeightKg", "BMI"],
+		"category": "purpose",
+    "purpose": [
+      "descriptive cardiovascular analytics",
+      "diagnostic cardiovascular analytics",
+      "predictive cardiovascular analytics",
+      "prescriptive cardiovascular analytics",
+      "cardiovascular research",
+      "track activity"],
+    "error": "emptystring"
+  },
+  {
+    "policy": "allow",
+		"field": [
+      "ActivityDay", "StepTotal",
+      "SedentaryMinutes", "LightlyActiveMinutes", "FairlyActiveMinutes",
+      "VeryActiveMinutes", "SedentaryActiveDistance", "LightActiveDistance",
+      "ModeratelyActiveDistance", "VeryActiveDistance"
+      ],
+		"category": "purpose",
+    "purpose": [
+      "descriptive cardiovascular analytics",
+      "diagnostic cardiovascular analytics",
+      "predictive cardiovascular analytics",
+      "prescriptive cardiovascular analytics",
+      "research",
+      "track activity",
+      "personalized marketing",
+      "group challenge"],
+    "error": "emptystring"
   }
 ]

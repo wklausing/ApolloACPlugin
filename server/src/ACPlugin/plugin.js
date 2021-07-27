@@ -48,6 +48,10 @@ module.exports = (logging) => {
 		serverWillStart() {
 			if(logging) {
 				log = require('simple-node-logger').createSimpleFileLogger('time_with_AC.log');
+				const opts = {
+					logFilePath:'mylogfile.log',
+    				timestampFormat:'YYYY-MM-DD HH:mm:ss.SSS'
+				};
 				log.setLevel('info');
 			}
 			try {
@@ -299,7 +303,7 @@ function getOperation(element) {
 			let purpose = Array.isArray(element.purpose) ? element.purpose : [element.purpose];
 			purpose = purpose.map(function(x){ return x.toUpperCase(); })
 			let exception = element.exception ? Array.isArray(element.exception) ? element.exception : [element.exception] : null;
-			exception = exception.map(function(x){ return x.toUpperCase(); })
+			if(exception != null) exception = exception.map(function(x){ return x.toUpperCase(); })
 			let policyPurpose = element.policy ? element.policy.toUpperCase() == "ALLOW" ? true : false : true;
 			return new PurposeRule(policyPurpose, purpose, exception, getError(element));
 		default:
