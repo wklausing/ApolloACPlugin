@@ -94,7 +94,7 @@ const typeDefs = gql`
     DailyActivities(Purpose: String!): [DailyActivities]
     DailyActivity(Purpose: String!, Id: Float!): [DailyActivities]
 
-    HeartratePerSeconds(Purpose: String!, Id: Float): [HeartratePerSeconds]
+    HeartratePerSeconds(Purpose: String!, Id: Float, Time: String): [HeartratePerSeconds]
 
     SleepDays(Purpose: String!): [SleepDays]
 
