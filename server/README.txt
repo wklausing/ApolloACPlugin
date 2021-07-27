@@ -15,8 +15,8 @@ node src/index.js
 
 #Queries zum Testen
 
-query{
-  DailyActivities {
+query getDailyActivity($Purpose: String!){
+  DailyActivity(Purpose: $Purpose){
     Id,
     ActivityDate,
     TotalSteps,
@@ -35,8 +35,8 @@ query{
   }
 }
 
-query{
-  DailyActivity(Id: 8877689391){
+query getDailyActivity($Purpose: String!){
+  DailyActivity(Purpose: $Purpose, Id: 8877689391){
     Id,
     ActivityDate,
     TotalSteps,
@@ -57,8 +57,8 @@ query{
 
 Mutation zum testen
 * Wirft Fehler falls Eintrag schon existiert
-mutation{
-  InsertDailyActivity(Id: 21, ActivityDate: "5/12/2021", TotalSteps: 500) {
+mutation insertActivity($Purpose: String!){
+  InsertDailyActivity(Purpose: $Purpose, Id: 21, ActivityDate: "5/12/2021", TotalSteps: 500) {
     Id,
     ActivityDate,
     TotalSteps,
