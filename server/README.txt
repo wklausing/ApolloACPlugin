@@ -57,8 +57,8 @@ query getDailyActivity($Purpose: String!){
 
 Mutation zum testen
 * Wirft Fehler falls Eintrag schon existiert
-mutation insertActivity($Purpose: String!){
-  InsertDailyActivity(Purpose: $Purpose, Id: 21, ActivityDate: "5/12/2021", TotalSteps: 500) {
+mutation{
+  InsertDailyActivity(Id: 21, ActivityDate: "5/12/2021", TotalSteps: 500) {
     Id,
     ActivityDate,
     TotalSteps,
