@@ -13,14 +13,14 @@ const createFitBitDB = () => {
   var query = `
         CREATE DATABASE IF NOT EXISTS fitbit
        `;
-  database.query(query, function(error) {
+  database.query(query, function (error) {
     if (error) throw error;
   });
 
   query = `
        USE fitbit
       `;
-  database.query(query, function(error) {
+  database.query(query, function (error) {
     if (error) throw error;
   });
 
@@ -41,7 +41,7 @@ const createFitBitDB = () => {
         Web text,
         PRIMARY KEY (Id)
      )`;
-  database.query(query, function(error) {
+  database.query(query, function (error) {
     if (error) throw error;
   });
 
@@ -64,7 +64,7 @@ const createFitBitDB = () => {
        Calories integer,
        PRIMARY KEY (Id, ActivityDate)
     )`;
-  database.query(query, function(error) {
+  database.query(query, function (error) {
     if (error) throw error;
   });
 
@@ -75,7 +75,7 @@ const createFitBitDB = () => {
       Value integer,
       PRIMARY KEY (Id, Time)
    )`;
-  database.query(query, function(error) {
+  database.query(query, function (error) {
     if (error) throw error;
   });
 
@@ -88,7 +88,7 @@ const createFitBitDB = () => {
       TotalTimeInBed integer,
       PRIMARY KEY (Id, SleepDay)
    )`;
-  database.query(query, function(error) {
+  database.query(query, function (error) {
     if (error) throw error;
   });
 
@@ -104,7 +104,7 @@ const createFitBitDB = () => {
       LogId bigint,
       PRIMARY KEY (Id, Date)
    )`;
-  database.query(query, function(error) {
+  database.query(query, function (error) {
     if (error) throw error;
   });
 
@@ -116,7 +116,7 @@ const createFitBitDB = () => {
       AverageIntensity float(7),
       PRIMARY KEY (Id, ActivityHour)
    )`;
-  database.query(query, function(error) {
+  database.query(query, function (error) {
     if (error) throw error;
   });
 
@@ -127,7 +127,7 @@ const createFitBitDB = () => {
       StepTotal integer,
       PRIMARY KEY (Id, ActivityDay)
    )`;
-  database.query(query, function(error) {
+  database.query(query, function (error) {
     if (error) throw error;
   });
 
@@ -145,7 +145,7 @@ const createFitBitDB = () => {
       VeryActiveDistance float(7),
       PRIMARY KEY (Id, ActivityDay)
    )`;
-  database.query(query, function(error) {
+  database.query(query, function (error) {
     if (error) throw error;
   });
 

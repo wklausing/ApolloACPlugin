@@ -46,11 +46,11 @@ let allPurposes = [];
 module.exports = (logging) => {
 	return {
 		serverWillStart() {
-			if(logging) {
+			if (logging) {
 				log = require('simple-node-logger').createSimpleFileLogger('time_with_AC.log');
 				const opts = {
-					logFilePath:'mylogfile.log',
-    				timestampFormat:'YYYY-MM-DD HH:mm:ss.SSS'
+					logFilePath: 'mylogfile.log',
+					timestampFormat: 'YYYY-MM-DD HH:mm:ss.SSS'
 				};
 				log.setLevel('info');
 			}
@@ -66,7 +66,7 @@ module.exports = (logging) => {
 		},
 		requestDidStart(requestContext) {
 			if (requestContext.request.operationName != 'IntrospectionQuery') {
-				if(logging) start =  process.hrtime.bigint();
+				if (logging) start = process.hrtime.bigint();
 				if (purposes != null) {
 					let validation = purposeExist(requestContext.request);
 					if (!validation)
@@ -97,9 +97,9 @@ module.exports = (logging) => {
 						cachedDecision = new Map();
 
 						// Log if activated
-						if(logging) {
-							end =  process.hrtime.bigint();
-							log.info(end-start);
+						if (logging) {
+							end = process.hrtime.bigint();
+							log.info(end - start);
 						}
 					}
 				}
@@ -202,13 +202,13 @@ function deepFilter(obj, requestContext) {
 	if (typeof (obj) == "object") {
 		Object.keys(obj).forEach(element => {
 			if (ruleMap[element] != null) {
-				if(cachedDecision[element] != null) {
+				if (cachedDecision[element] != null) {
 					// Get previous verification outcome
 					processValidation(cachedDecision[element], obj, element, false);
 				} else {
 					// Verify and edit value if necessary
 					ruleMap[element].forEach(rule => {
-						if(rule.policy != verifyRule(requestContext, rule)) {
+						if (rule.policy != verifyRule(requestContext, rule)) {
 							processValidation(rule.error, obj, element, true);
 						} else {
 							cachedDecision[element] = ControlPolicy.APPROVED;
@@ -241,14 +241,14 @@ Changes response json depending on the error var
 function processValidation(error, obj, element, cache) {
 	switch (error) {
 		case ControlPolicy.APPROVED:
-			if(cache) cachedDecision[element] = ControlPolicy.APPROVED;
+			if (cache) cachedDecision[element] = ControlPolicy.APPROVED;
 			break;
 		case ControlPolicy.EMPTYSTRING:
-			if(cache) cachedDecision[element] = ControlPolicy.EMPTYSTRING;
+			if (cache) cachedDecision[element] = ControlPolicy.EMPTYSTRING;
 			obj[element] = "";
 			break;
 		case ControlPolicy.DELETE:
-			if(cache) 	cachedDecision[element] = ControlPolicy.DELETE;
+			if (cache) cachedDecision[element] = ControlPolicy.DELETE;
 			delete obj[element];
 			break;
 		case ControlPolicy.BLOCKREQUEST:
@@ -295,15 +295,15 @@ function getOperation(element) {
 		case "HEADER":
 			console.log("Header-Rule: " + element.operation + " " + element.compare + " " + element.value);
 			let value = Array.isArray(element.value) ? element.value : [element.value];
-			value = value.map(function(x){ return x.toUpperCase(); })
+			value = value.map(function (x) { return x.toUpperCase(); })
 			let policy = element.policy ? element.policy.toUpperCase() == "ALLOW" ? true : false : true;
 			return new HeaderRule(element.operation, element.compare, value, getError(element));
 		case "PURPOSE":
 			console.log("Purpose-Rule: " + element.purpose + " " + (element.exception ? element.exception : "null"));
 			let purpose = Array.isArray(element.purpose) ? element.purpose : [element.purpose];
-			purpose = purpose.map(function(x){ return x.toUpperCase(); })
+			purpose = purpose.map(function (x) { return x.toUpperCase(); })
 			let exception = element.exception ? Array.isArray(element.exception) ? element.exception : [element.exception] : null;
-			if(exception != null) exception = exception.map(function(x){ return x.toUpperCase(); })
+			if (exception != null) exception = exception.map(function (x) { return x.toUpperCase(); })
 			let policyPurpose = element.policy ? element.policy.toUpperCase() == "ALLOW" ? true : false : true;
 			return new PurposeRule(policyPurpose, purpose, exception, getError(element));
 		default:
@@ -321,7 +321,7 @@ Functionality
 Returns the control policy (hide the value, delete it or return a forbidden)
 **/
 function getError(element) {
-	if(element.error == undefined) return ControlPolicy.EMPTYSTRING;
+	if (element.error == undefined) return ControlPolicy.EMPTYSTRING;
 	else {
 		switch (element.error.toUpperCase()) {
 			case "EMPTYSTRING":
@@ -348,14 +348,14 @@ Checks if the request meets the rule's condition
  */
 function verifyRule(requestContext, rule) {
 	let valid = false;
-	if(rule instanceof HeaderRule) {
+	if (rule instanceof HeaderRule) {
 		let headerInfo = requestContext.request.http.headers.get(rule.comparison);
-		if(headerInfo == null) 
+		if (headerInfo == null)
 			return false;
 		headerInfo = headerInfo.toUpperCase();
 		valid = verifyHeaderRule(headerInfo, rule);
-	} 
-	if(rule instanceof PurposeRule) {
+	}
+	if (rule instanceof PurposeRule) {
 		let purpose = requestContext.request.variables.Purpose.toUpperCase();
 		valid = verifyPurposeRule(purpose, rule);
 	}
@@ -375,26 +375,26 @@ Checks if the request meets the purpose rule's condition
 function verifyPurposeRule(purpose, rule) {
 	let valid = false;
 	// Check if the given purpose is an exception
-	if(rule.exception != null) {
+	if (rule.exception != null) {
 		let isException = false;
 		rule.exception.every(ex => {
-			if(ex == purpose) 
+			if (ex == purpose)
 				isException = true;
-				return true;
+			return true;
 		})
-		if(isException) return valid;
+		if (isException) return valid;
 	}
 	// Check if the given purpose is valid
 	valid = rule.purpose.some(p => {
-		if(purpose == p) {
+		if (purpose == p) {
 			return true;
 		}
 		valid = purposes.get(p).some(p2 => {
-			if(purpose == p2) {
+			if (purpose == p2) {
 				return true;
 			}
 		});
-		if(valid) return true;
+		if (valid) return true;
 	});
 	return valid;
 }
@@ -414,52 +414,52 @@ function verifyHeaderRule(headerInfo, rule) {
 	switch (rule.operation) {
 		case "CONTAINS":
 			valid = rule.value.some(v => {
-				if(headerInfo.includes(v)) {
+				if (headerInfo.includes(v)) {
 					return true;
 				}
 			});
 			break;
 		case "EQUAL":
 			valid = rule.value.some(v => {
-				if(headerInfo == v) {
+				if (headerInfo == v) {
 					return true;
 				}
 			});
 			break;
 		case "UNEQUAL":
 			valid = rule.value.some(v => {
-				if(headerInfo != v) {
+				if (headerInfo != v) {
 					return true;
 				}
 			});
 			break;
 		case "GREATER":
 			valid = rule.value.some(v => {
-				if(headerInfo > v) {
+				if (headerInfo > v) {
 					return true;
 				}
 			});
 			break;
 		case "LESS":
-			case "GREATER":
+		case "GREATER":
 			valid = rule.value.some(v => {
-				if(headerInfo < v) {
+				if (headerInfo < v) {
 					return true;
 				}
 			});
 			break;
 		case "GEQ":
-			case "GREATER":
+		case "GREATER":
 			valid = rule.value.some(v => {
-				if(headerInfo >= v) {
+				if (headerInfo >= v) {
 					return true;
 				}
 			});
 			break;
 		case "LEQ":
-			case "GREATER":
+		case "GREATER":
 			valid = rule.value.some(v => {
-				if(headerInfo <= v) {
+				if (headerInfo <= v) {
 					return true;
 				}
 			});

@@ -1,34 +1,54 @@
 [
   {
     "policy": "allow",
-		"field": ["First_name", "Last_name", "Email", "Web"],
-		"category": "purpose",
-    "purpose": ["track activity", "social fitness"],
+    "field": [
+      "First_name",
+      "Last_name",
+      "Email",
+      "Web"
+    ],
+    "category": ["purpose", "marketing"],
+    "purpose": [
+      "track activity",
+      "social fitness",
+      "health"
+    ],
     "error": "emptystring"
   },
   {
     "policy": "allow",
-		"field": [
+    "field": [
       "Company_name",
       "Address",
       "City",
       "Zip",
       "Phone1",
-      "Phone2"],
-		"category": "purpose",
-    "purpose": "track activity",
+      "Phone2"
+    ],
+    "category": "purpose",
+    "purpose": [
+      "track activity",
+      "health"
+    ],
     "error": "emptystring"
   },
   {
     "policy": "allow",
-		"field": ["County", "State"],
-		"category": "purpose",
-    "purpose": ["personalized marketing", "track activity"],
+    "field": [
+      "County",
+      "State"
+    ],
+    "category": "purpose",
+    "purpose": [
+      "personalized marketing",
+      "track activity",
+      "health"
+    ],
     "error": "emptystring"
   },
   {
     "policy": "allow",
-		"field": [
+    "field": [
       "ActivityDate",
       "TotalSteps",
       "TotalDistance",
@@ -44,14 +64,21 @@
       "SedentaryMinutes",
       "Calories"
     ],
-		"category": "purpose",
-    "purpose": ["health", "track activity", "influencer marketing"],
+    "category": "purpose",
+    "purpose": [
+      "health",
+      "track activity",
+      "influencer marketing"
+    ],
     "error": "emptystring"
   },
   {
     "policy": "allow",
-		"field": ["Time", "Value"],
-		"category": "purpose",
+    "field": [
+      "Time",
+      "Value"
+    ],
+    "category": "purpose",
     "purpose": [
       "descriptive cardiovascular analytics",
       "diagnostic cardiovascular analytics",
@@ -64,42 +91,60 @@
   },
   {
     "policy": "allow",
-		"field": ["SleepDay", "TotalSleepRecords", "TotalMinutesAsleep", "TotalTimeInBed"],
-		"category": "purpose",
-    "purpose": ["health", "track activity", "research"],
+    "field": [
+      "SleepDay",
+      "TotalSleepRecords",
+      "TotalMinutesAsleep",
+      "TotalTimeInBed"
+    ],
+    "category": "purpose",
+    "purpose": [
+      "health",
+      "track activity",
+      "research"
+    ],
     "error": "emptystring"
   },
   {
     "policy": "allow",
-		"field": ["Date", "WeightKg", "BMI"],
-		"category": "purpose",
+    "field": [
+      "Date",
+      "WeightKg",
+      "BMI"
+    ],
+    "category": "purpose",
     "purpose": [
       "descriptive cardiovascular analytics",
       "diagnostic cardiovascular analytics",
       "predictive cardiovascular analytics",
       "prescriptive cardiovascular analytics",
       "cardiovascular research",
-      "track activity"],
+      "track activity"
+    ],
     "error": "emptystring"
   },
   {
     "policy": "allow",
-		"field": [
-      "ActivityDay", "StepTotal",
-      "SedentaryMinutes", "LightlyActiveMinutes", "FairlyActiveMinutes",
-      "VeryActiveMinutes", "SedentaryActiveDistance", "LightActiveDistance",
-      "ModeratelyActiveDistance", "VeryActiveDistance"
-      ],
-		"category": "purpose",
+    "field": [
+      "ActivityDay",
+      "StepTotal",
+      "SedentaryMinutes",
+      "LightlyActiveMinutes",
+      "FairlyActiveMinutes",
+      "VeryActiveMinutes",
+      "SedentaryActiveDistance",
+      "LightActiveDistance",
+      "ModeratelyActiveDistance",
+      "VeryActiveDistance"
+    ],
+    "category": "purpose",
     "purpose": [
-      "descriptive cardiovascular analytics",
-      "diagnostic cardiovascular analytics",
-      "predictive cardiovascular analytics",
-      "prescriptive cardiovascular analytics",
+      "health",
       "research",
       "track activity",
       "personalized marketing",
-      "group challenge"],
+      "group challenge"
+    ],
     "error": "emptystring"
   }
 ]
