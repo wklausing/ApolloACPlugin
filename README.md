@@ -36,5 +36,7 @@
 14. node index.js
 
 Steps 1-6: Creates database tables
+
 Steps 7-12: Fills database with test data
+
 Steps 13-14: Running the server
