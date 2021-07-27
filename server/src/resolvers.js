@@ -37,10 +37,10 @@ const resolvers = {
           });
       });
     },
-    async HeartratePerSeconds (_, {Id}, ___) {
+    async HeartratePerSeconds (_, {Id, Time}, {___}) {
       return new Promise((resolve, reject) => {
           // raw SQLite query to select from table
-          database.query('SELECT * FROM HeartratePerSeconds WHERE Id = (?);', [Id], function(err, rows) {
+          database.query('SELECT * FROM HeartratePerSeconds WHERE Id = (?) AND Time Like (?);', [Id, Time+'%'], function(err, rows) {
               if(err){
                   reject([]);
               }
@@ -99,6 +99,7 @@ const resolvers = {
     },
     async DailyIntensities (_, __, ___) {
       return new Promise((resolve, reject) => {
+          console.log("hi");
           // raw SQLite query to select from table
           database.query('SELECT * FROM DailyIntensities;', function(err, rows) {
               if(err){
