@@ -173,8 +173,8 @@ Checks if a purpose was given as a request variable and verifies it
  */
 function purposeExist(request) {
 	if (request.variables == undefined) return false;
-	if (request.variables.purpose == undefined) return false;
-	return validPurpose(request.variables.purpose.toUpperCase());
+	if (request.variables.Purpose == undefined) return false;
+	return validPurpose(request.variables.Purpose.toUpperCase());
 }
 
 /**
@@ -265,11 +265,15 @@ Goes through the JSON array and adds the rules into ruleMap
 function processRulesJSON() {
 	let rules = require('./rules.json');
 	rules.forEach(element => {
-		if (ruleMap[element.field] == null) {
-			ruleMap[element.field] = [getOperation(element)];
-		} else {
-			ruleMap[element.field].push(getOperation(element));
-		}
+		let fields = Array.isArray(element.field) ? element.field : [element.field];
+		let operation = getOperation(element);
+		fields.forEach(field => {
+			if (ruleMap[field] == null) {
+				ruleMap[field] = [operation];
+			} else {
+				ruleMap[field].push(operation);
+			}
+		})
 	});
 }
 
@@ -348,7 +352,7 @@ function verifyRule(requestContext, rule) {
 		valid = verifyHeaderRule(headerInfo, rule);
 	} 
 	if(rule instanceof PurposeRule) {
-		let purpose = requestContext.request.variables.purpose.toUpperCase();
+		let purpose = requestContext.request.variables.Purpose.toUpperCase();
 		valid = verifyPurposeRule(purpose, rule);
 	}
 	return valid;
@@ -365,7 +369,6 @@ Functionality
 Checks if the request meets the purpose rule's condition
  */
 function verifyPurposeRule(purpose, rule) {
-	console.log(purpose);
 	let valid = false;
 	// Check if the given purpose is an exception
 	if(rule.exception != null) {
