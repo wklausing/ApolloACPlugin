@@ -1,13 +1,15 @@
 ### How to run the server on a GCLOUD instance:
 
 #### Necessary installations:
+```
 1. sudo apt-get update
 2. sudo apt-get install git
 3. sudo apt-get install npm
 4. sudo apt install mariadb-server
 5. sudo apt-get install unar
-
+```
 #### MySQL setup:
+```
 1. sudo mysql_secure_installation (set password to 'test', skip rest)
 2. sudo mysql -u root
 3. Type 'USE mysql;'
@@ -18,8 +20,9 @@
 8. sudo service mysql restart
 9. mysql -u root -p (for testing)
 10. exit;
-
+```
 #### Adding data into MySQL:
+```
 1. git clone https://github.com/wklausing/PENG.git
 2. cd PENG/server/
 3. npm install
@@ -34,7 +37,7 @@
 12. Exit after no more console logs: CTRL+C
 13. cd src
 14. node index.js
-
-Steps 1-6: Creates database tables
-Steps 7-12: Fills database with test data
-Steps 13-14: Running the server
+```
+- Steps 1-6: Creates database tables
+- Steps 7-12: Fills database with test data
+- Steps 13-14: Running the server
