@@ -380,7 +380,6 @@ function verifyPurposeRule(purpose, rule) {
 		})
 		if(isException) return valid;
 	}
-
 	// Check if the given purpose is valid
 	valid = rule.purpose.some(p => {
 		if(purpose == p) {
@@ -393,6 +392,7 @@ function verifyPurposeRule(purpose, rule) {
 		});
 		if(valid) return true;
 	});
+	return valid;
 }
 
 /**

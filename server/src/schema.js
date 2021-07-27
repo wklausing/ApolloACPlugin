@@ -94,9 +94,12 @@ const typeDefs = gql`
 
     DailyActivities(Purpose: String!): [DailyActivities]
     DailyActivity(Purpose: String!, Id: Float!): [DailyActivities]
+    DailyActivityDay(Purpose: String!, Id: Float!, Time: String): [DailyActivities]
 
-    HeartratePerSeconds(Purpose: String!, Id: Float, Time: String): [HeartratePerSeconds]
+    HeartratePerSeconds(Purpose: String!, Id: Float): [HeartratePerSeconds]
+    HeartratePerSecondsDay(Purpose: String!, Id: Float, Time: String): [HeartratePerSeconds]
 
+    SleepDay(Purpose: String!, Id: Float, Time: String): [SleepDays]
     SleepDays(Purpose: String!): [SleepDays]
     SleepDaysOf(Purpose: String!, Id: Float): [SleepDays]
 
@@ -108,9 +111,11 @@ const typeDefs = gql`
 
     DailySteps(Purpose: String!): [DailySteps]
     DailyStepsOf(Purpose: String!, Id: Float): [DailySteps]
+    DailyStepsDay(Purpose: String!, Id: Float, Time: String): [DailySteps]
 
     DailyIntensities(Purpose: String!): [DailyIntensities]
     DailyIntensitiesOf(Purpose: String!, Id: Float): [DailyIntensities]
+    DailyIntensitiesDay(Purpose: String!, Id: Float, Time: String): [DailyIntensities]
   }
 
   type Mutation {
