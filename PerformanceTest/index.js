@@ -1,13 +1,13 @@
 const fetch = require('node-fetch');
 
-var query = `query getDailyActivity($purpose: String!){
+var trackingQuery = `query getDailyActivity($purpose: String!){
     DailyActivity(Purpose: $purpose, Id: 8877689391) {
       Id
       ActivityDate
     }
   }`;
 
-function sendQuery(i) {
+function sendQuery(query, i) {
     if(i<1000) {
         fetch('http://localhost:4000', {
     method: 'POST',
@@ -24,10 +24,12 @@ function sendQuery(i) {
     })
     .then(r => r.json())
     .then(data => {
-        console.log('Response #'+i); 
         sendQuery(i+1);
     });
-    }
+    } else {
+		console.log("Test#1: Done.");
+	}
 }
 
-sendQuery(0);
+console.log("Test#1: Running..");
+sendQuery(trackingQuery, 0);
