@@ -3,7 +3,7 @@ let fs = require('fs');
 const log = require('simple-node-logger').createSimpleFileLogger('response.log');
 log.setLevel('info');
 
-if (process.argv.length == 4) {
+if (process.argv.length == 3) {
     if (!isNaN(process.argv[2])) {
         var testNumber = process.argv[2];
         var argPurpose = "";
