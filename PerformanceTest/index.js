@@ -3,9 +3,25 @@ let fs = require('fs');
 const log = require('simple-node-logger').createSimpleFileLogger('response.log');
 log.setLevel('info');
 
-if (process.argv.length == 3) {
+if (process.argv.length == 4) {
     if (!isNaN(process.argv[2])) {
         var testNumber = process.argv[2];
+        var argPurpose = "";
+        switch (testNumber) {
+            case 1:
+                argPurpose = "track activity";
+                break;
+            case 2:
+                argPurpose = "track activity";
+                break;
+            case 3:
+                argPurpose = "diagnostic sleep analytics";
+                break;
+            case 4:
+                argPurpose = "influencer marketing";
+                break;
+                
+        }
         var query = fs.readFileSync('test' + testNumber + '.txt', 'utf8');
 
         function sendQuery(query, purpose, i) {
@@ -41,7 +57,7 @@ if (process.argv.length == 3) {
         console.log("Test #" + testNumber + ": Running..");
         console.log("----------");
 
-        sendQuery(query, "track activity", 0);
+        sendQuery(query, argPurpose, 0);
     } else {
         console.log("Please use a number as additional parameter");
     }

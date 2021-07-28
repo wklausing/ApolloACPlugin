@@ -1,7 +1,15 @@
-query getInfluencerMarketing($Purpose: String!){
+query getDiagnosticSleepAnalytics($Purpose: String!){
     Person(Purpose:$Purpose, Id:4020332650) {
         First_name,
         Last_name,
+        Company_name,
+        Address,
+        City,
+        County,
+        State,
+        Zip,
+        Phone1,
+        Phone2,
         Email,
         Web,
     }
@@ -20,5 +28,22 @@ query getInfluencerMarketing($Purpose: String!){
         LightlyActiveMinutes,
         SedentaryMinutes,
         Calories,
+    },
+    SleepDaysOf(Purpose: $Purpose, Id:4020332650){
+        SleepDay,
+        TotalSleepRecords,
+        TotalMinutesAsleep,
+        TotalTimeInBed,
+    },
+    DailyIntensitiesOf(Purpose: $Purpose, Id:4020332650){
+        ActivityDay,
+        SedentaryMinutes,
+        LightlyActiveMinutes,
+        FairlyActiveMinutes,
+        VeryActiveMinutes,
+        SedentaryActiveDistance,
+        LightActiveDistance,
+        ModeratelyActiveDistance,
+        VeryActiveDistance,
     }
 }
