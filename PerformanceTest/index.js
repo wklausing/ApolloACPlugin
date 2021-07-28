@@ -7,20 +7,21 @@ if (process.argv.length == 3) {
     if (!isNaN(process.argv[2])) {
         var testNumber = process.argv[2];
         var argPurpose = "";
+        console.log(testNumber);
         switch (testNumber) {
-            case 1:
+            case "1":
                 argPurpose = "track activity";
                 break;
-            case 2:
+            case "2":
                 argPurpose = "track activity";
                 break;
-            case 3:
+            case "3":
+                console.log("i change argPurpose");
                 argPurpose = "diagnostic sleep analytics";
                 break;
-            case 4:
+            case "4":
                 argPurpose = "influencer marketing";
                 break;
-                
         }
         var query = fs.readFileSync('test' + testNumber + '.txt', 'utf8');
 
