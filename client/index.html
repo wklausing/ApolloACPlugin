@@ -1,0 +1,125 @@
+<!doctype html>
+
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>A Basic HTML5 Template</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+  <div><canvas id="bar-chart" width="1000" height="80"></canvas></div>
+  <div><canvas id="line-chart" width="800" height="80"></canvas></div>
+
+
+
+</body>
+
+<script>
+  var superQuery = `query getInfluencerMarketing($Purpose: String!){
+  Person(Purpose:$Purpose, Id:4020332650) {
+      First_name,
+      Last_name,
+      Email,
+      Web,
+  }
+}`
+
+  $.ajax({
+    method: "POST",
+    url: "http://localhost:4000",
+    contentType: "application/json",
+    data: JSON.stringify({
+      query: superQuery,
+      variables: {
+        "Purpose": "track activity"
+      }
+    }),
+    success: function(data) {
+      console.log(data);
+
+      x = data.length;
+      console.log("x=" + x);
+
+      keys = Object.keys(data);
+      console.log("keys=" + keys);
+
+      y = Object.values(data.data.Person[0].First_name)
+      console.log("y=" + y);
+
+      var fruits = ['Apple', 'Banana'];
+      console.log(fruits);
+      console.log(fruits.length);
+    }
+  })
+
+
+  // Barchart
+    new Chart(document.getElementById("bar-chart"), {
+      type: 'bar',
+      data: {
+        labels: ["Africa", "Asia", "Europe", "Latin America", "North America"],
+        datasets: [{
+          label: "Population (millions)",
+          backgroundColor: ["#3e95cd", "#8e5ea2", "#3cba9f", "#e8c3b9", "#c45850"],
+          data: [2478, 5267, 734, 784, 433]
+        }]
+      },
+      options: {
+        legend: {
+          display: false
+        },
+        title: {
+          display: true,
+          text: 'Predicted world population (millions) in 2050'
+        }
+      }
+    });
+
+    // Line chart
+    new Chart(document.getElementById("line-chart"), {
+    type: 'line',
+    data: {
+      labels: [1500,1600,1700,1750,1800,1850,1900,1950,1999,2050],
+      datasets: [{
+          data: [86,114,106,106,107,111,133,221,783,2478],
+          label: "Africa",
+          borderColor: "#3e95cd",
+          fill: false
+        }, {
+          data: [282,350,411,502,635,809,947,1402,3700,5267],
+          label: "Asia",
+          borderColor: "#8e5ea2",
+          fill: false
+        }, {
+          data: [168,170,178,190,203,276,408,547,675,734],
+          label: "Europe",
+          borderColor: "#3cba9f",
+          fill: false
+        }, {
+          data: [40,20,10,16,24,38,74,167,508,784],
+          label: "Latin America",
+          borderColor: "#e8c3b9",
+          fill: false
+        }, {
+          data: [6,3,2,2,7,26,82,172,312,433],
+          label: "North America",
+          borderColor: "#c45850",
+          fill: false
+        }
+      ]
+    },
+    options: {
+      title: {
+        display: true,
+        text: 'World population per region (in millions)'
+      }
+    }
+  });
+</script>
+
+
+</html>
