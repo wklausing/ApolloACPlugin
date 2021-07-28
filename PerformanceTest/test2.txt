@@ -1,4 +1,4 @@
-query getDiagnosticSleepAnalytics($Purpose: String!){
+query getActivity($Purpose: String!){
     Person(Purpose:$Purpose, Id:4020332650) {
         First_name,
         Last_name,
@@ -13,7 +13,7 @@ query getDiagnosticSleepAnalytics($Purpose: String!){
         Email,
         Web,
     }
-    DailyActivity(Purpose:$Purpose, Id: 4020332650){
+    DailyActivityDay(Purpose:$Purpose, Id: 4020332650, Time:"4/12/2016"){
         ActivityDate,
         TotalSteps,
         TotalDistance,
@@ -29,13 +29,29 @@ query getDiagnosticSleepAnalytics($Purpose: String!){
         SedentaryMinutes,
         Calories,
     },
-    SleepDaysOf(Purpose: $Purpose, Id:4020332650){
+    HeartratePerSecondsHalfDay(Purpose:$Purpose, Id: 4020332650, Time: "4/12/2016"){
+        Time,
+        Value,
+    },
+    SleepDay(Purpose: $Purpose, Id:4020332650, Time:"4/12/2016"){
         SleepDay,
         TotalSleepRecords,
         TotalMinutesAsleep,
         TotalTimeInBed,
     },
-    DailyIntensitiesOf(Purpose: $Purpose, Id:4020332650){
+    WeightPoundsOf(Purpose: $Purpose, Id:4020332650){
+        Date,
+        WeightKg,
+        WeightPounds,
+        Fat,
+        BMI,
+        IsManualReport,
+    },
+    DailyStepsDay(Purpose: $Purpose, Id:4020332650, Time:"4/12/2016" ){
+        ActivityDay,
+        StepTotal
+    },
+    DailyIntensitiesDay(Purpose: $Purpose, Id:4020332650, Time:"4/12/2016" ){
         ActivityDay,
         SedentaryMinutes,
         LightlyActiveMinutes,
@@ -45,5 +61,5 @@ query getDiagnosticSleepAnalytics($Purpose: String!){
         LightActiveDistance,
         ModeratelyActiveDistance,
         VeryActiveDistance,
+    },
     }
-}

@@ -62,7 +62,7 @@ const resolvers = {
         async HeartratePerSeconds(_, { Id }, { ___ }) {
             return new Promise((resolve, reject) => {
                 // raw SQLite query to select from table
-                database.query('SELECT * FROM HeartratePerSeconds WHERE Id = (?);', [Id, Time + '%'], function (err, rows) {
+                database.query('SELECT * FROM HeartratePerSeconds WHERE Id = (?);', [Id], function (err, rows) {
                     if (err) {
                         reject([]);
                     }
@@ -75,6 +75,18 @@ const resolvers = {
             return new Promise((resolve, reject) => {
                 // raw SQLite query to select from table
                 database.query('SELECT * FROM HeartratePerSeconds WHERE Id = (?) AND Time Like (?);', [Id, Time + '%'], function (err, rows) {
+                    if (err) {
+                        reject([]);
+                    }
+                    resolve(rows);
+                    rows.shift();
+                });
+            });
+        },
+        async HeartratePerSecondsHalfDay(_, { Id, Time }, { ___ }) {
+            return new Promise((resolve, reject) => {
+                // raw SQLite query to select from table
+                database.query('SELECT * FROM HeartratePerSeconds WHERE Id = (?) AND Time Like (?) AND Time NOT Like "%PM";', [Id, Time + '%'], function (err, rows) {
                     if (err) {
                         reject([]);
                     }
