@@ -6,7 +6,6 @@
 2. sudo apt-get install git
 3. sudo apt-get install npm
 4. sudo apt install mariadb-server
-5. sudo apt-get install unar
 ```
 #### MySQL setup:
 ```
@@ -31,7 +30,7 @@
 6. node index.js
 7. CTRL+C
 8. cd ../../dataset
-9. unar fitbitData.rar
+9. unzip fitbitData.rar
 10. mysql -h localhost -u root -p
 11. For the following commands you need to give to right path to the files.
 12. Type 'LOAD DATA LOCAL INFILE "YOUR_PATH/dataset/fitbitData/dailyActivity_merged.csv" INTO TABLE DailyActivities FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n' (Id,ActivityDate,TotalSteps,TotalDistance,TrackerDistance,LoggedActivitiesDistance,VeryActiveDistance,ModeratelyActiveDistance,LightActiveDistance,SedentaryActiveDistance,VeryActiveMinutes,FairlyActiveMinutes,LightlyActiveMinutes,SedentaryMinutes,Calories);'
