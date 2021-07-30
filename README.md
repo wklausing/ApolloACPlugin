@@ -1,6 +1,8 @@
 # Access Control Plugin
 
-The goal of this project was to create a valuable component - to design a tool which is re-useable, flexible, developer-friendly and provide a way for Apollo Servers to easily integrate access control into their system. It gives developers the ability to do access control by setting up rules to restrict query fields. Currently, two access control models are supported:
+Privacy is an important factor in today's electronic world as information systems increase in size with unprecedented speed. Information can be easily stored, captured and shared in magnitudes and ways that were never seen before. In this kind of environment privacy engineering becomes more important. Access control can ensure privacy protection and help service provider to respect personal data. 
+
+The goal of this project was to create a valuable and qualitative access control component - to design a privacy tool which is re-useable, flexible, developer-friendly and provide a way for Apollo Servers to easily integrate access control into their system. It gives developers the ability to block or restrict data by setting up rules for any and all query fields. Currently, two access control models are supported:
 
 - Header-based Access Control: Enables developers to create rules based on the header information of an incoming request. It allows the developer to block/restrict query fields and only provide the requested information if the request's header meets the conditions.
 
