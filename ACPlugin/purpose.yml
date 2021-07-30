@@ -1,0 +1,25 @@
+purpose:
+  research:
+    - sleep research
+    - cardiovascular research
+  marketing:
+    - personalized marketing
+    - influencer marketing
+  health:
+    - descriptive analytics:
+      - descriptive sleep analytics
+      - descriptive cardiovascular analytics
+    - diagnostic analytics:
+      - diagnostic sleep analytics
+      - diagnostic cardiovascular analytics
+    - predictive analytics:
+      - predictive sleep analytics
+      - predictive cardiovascular analytics
+    - prescriptive analytics:
+      - prescriptive sleep analytics
+      - prescriptive cardiovascular analytics
+  fitness:
+    - track activity
+    - social fitness:
+      - group challenge
+    

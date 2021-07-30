@@ -1,0 +1,16 @@
+{
+  "name": "acplugin",
+  "version": "1.0.0",
+  "description": "rules.json is a JSON Array with each JSON Object being a seperate rule.",
+  "main": "plugin.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "apollo-server": "^3.1.1",
+    "graphql": "^15.5.1",
+    "js-yaml": "^4.1.0"
+  }
+}
